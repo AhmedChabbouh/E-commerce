@@ -8,13 +8,16 @@
     {% for product in products %}
         <div class="col-3 "style="display:flex; align-items: stretch;">
 <div class="card" id="{{ product.getId() }}" style="width: 18rem;height:auto;margin-bottom:25px">
-    <img class="card-img-top " style="height:350px;" src= {% block image %} {{ product.getImage()}} {% endblock %}>
+    <img class="card-img-top " style="height:350px;" src=  {{ product.getImage()}} >
     <div class="card-body">
-    <h5 class="card-title">{% block name %} {{ product.getName()}} {% endblock %}</h5>
+    <h5 class="card-title"> {{ product.getName()}} </h5>
 
-    <p class="card-text">{% block description %} {{ product.getDescription()}} {% endblock %}</p>
-    <label>{% block price %} {{ product.getPrice()}} {% endblock %}$</label><br><br>
-        <button   id="{{ product.getId() }}" class="btn btn-primary" >Add to cart 🛒</button>
+    <p class="card-text"> {{ product.getDescription()}} </p>
+    <label> {{ product.getPrice()}} $</label><br><br>
+        <form method="POST" action="{{ path('app_cartadd_to_cart', {id: product.getId()}) }}">
+            <button  id="{{ product.getId() }}" class="btn btn-primary" >Add to cart 🛒</button>
+        </form>
+
     </div>
 </div>
         </div>
@@ -23,20 +26,5 @@
     </div>
     </div>
 {% endblock %}
-{% block javascripts %}
-<script>
-    document.querySelectorAll('.btn.btn-primary').forEach(button => {
-        button.addEventListener('click', () => {
-            const productId = button.id;
 
-            fetch('/cart/add/${productId}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-            });
-        })
-    });
-</script>
-{% endblock %}
+

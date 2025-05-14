@@ -35,7 +35,10 @@
 
                 <div class="navbar-icons d-flex align-items-center">
                    <i class="bi bi-person" title="User"></i>
-                    <a href="#"> <i class="bi bi-bag" title="Cart"></i></a>
+                    <form method="POST" action="{{ path('app_cartshow_cart')}}">
+                        <button  style="background-color: transparent;border:none;"> <i class="bi bi-bag" title="Cart"></i></button>
+                    </form>
+
                 </div>
             </div>
         </div>
