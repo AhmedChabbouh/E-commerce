@@ -9,13 +9,17 @@ use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 
 class RegistrationController extends AbstractController
 {
@@ -24,7 +28,13 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request                     $request,
+                             UserPasswordHasherInterface $userPasswordHasher,
+                             EntityManagerInterface      $entityManager,
+                             Security                    $security,
+
+
+    ): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationForm::class, $user);
@@ -50,7 +60,7 @@ class RegistrationController extends AbstractController
             );
 
             // do anything else you need here, like send an email
-
+            $security->login($user);
             return $this->redirectToRoute('app_productproduct_list');
         }
 
