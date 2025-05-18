@@ -30,7 +30,7 @@ class Product
     private ?int $stockQuantity = null;
 
     #[ORM\ManyToOne(targetEntity: Category::class,inversedBy: 'products')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Category $category = null;
 
 
