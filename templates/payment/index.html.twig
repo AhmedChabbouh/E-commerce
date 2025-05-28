@@ -1,13 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Make Payment{% endblock %}
+{% block title %}Your Cart{% endblock %}
 
 {% block body %}
     {{ parent() }}
-<div >
-    <form action="/checkout" method="POST">
-        <button type="submit" class="btn btn-primary btn-lg">Checkout</button>
-    </form>
 
-</div>
+    <div class="container">
+        <h2>Your Cart Items</h2>
+
+        {% if items is not empty %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.product_name }}</td>
+                        <td>${{ item.product_price|number_format(2) }}</td>
+                        <td>{{ item.item_quantity }}</td>
+                        <td>${{ (item.product_price * item.item_quantity)|number_format(2) }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div>
+                <form action="{{ path('checkout', {'cartId': cart.id}) }}" method="POST">
+                    <button type="submit" class="btn btn-primary btn-lg">Checkout</button>
+                </form>
+            </div>
+        {% else %}
+            <p>Your cart is empty</p>
+        {% endif %}
+    </div>
 {% endblock %}

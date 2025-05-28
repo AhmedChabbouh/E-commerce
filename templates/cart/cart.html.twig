@@ -53,12 +53,23 @@
             const names = Array.from(document.querySelectorAll('.card-title'));
             const ids = Array.from(document.querySelectorAll('.product-id'));
             confirmButton.addEventListener('click', () => {
-                fetch(`/payment/checkout/ {{ cart.getId() }}`, {
+                fetch(`/checkout/ {{ cart_id }}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     }
                 })
+                    .then(response => {
+                        if (response.redirected) {
+                            return fetch(`/payment/{{ cart_id }}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                }
+                            });
+                        }
+                        throw new Error('Checkout failed');
+                    })
             })
             function updateTotal() {
                 let total = 0;
