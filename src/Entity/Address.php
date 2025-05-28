@@ -13,10 +13,6 @@ class Address
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'address', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
-
     #[ORM\Column]
     private ?int $codePostal = null;
 
@@ -28,6 +24,10 @@ class Address
 
     #[ORM\Column]
     private ?string $phoneNumber = null;
+
+    #[ORM\ManyToOne(inversedBy: 'addresses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
