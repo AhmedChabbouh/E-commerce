@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ProductController extends AbstractController
 {
     #[Route('/list', name: 'product_list')]
-    public function show_products(ManagerRegistry $doctrine)
+    public function show_products(ManagerRegistry $doctrine): Response
     {
         $repo = $doctrine->getRepository(Product::class);
         $products = $repo->findAll();
