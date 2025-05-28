@@ -7,10 +7,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
-
+#[Route('/payment', name: 'app_payment')]
 final class PaymentController extends AbstractController
 {
-    #[Route('/payment', name: 'app_payment')]
+    #[Route('/index', name: 'app_payment')]
     public function index(): Response
     {
         return $this->render('payment/index.html.twig', [
@@ -18,8 +18,8 @@ final class PaymentController extends AbstractController
         ]);
     }
 
-    #[Route('/checkout', name: 'checkout')]
-    public function checkout($stripeSK): Response
+    #[Route('/checkout/{cartId}', name: 'checkout', methods:'GET')]
+    public function checkout(int $cartId,$stripeSK): Response
     {
         \Stripe\Stripe::setApiKey($stripeSK);
         $session = \Stripe\Checkout\Session::create([
