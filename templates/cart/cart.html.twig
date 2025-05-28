@@ -53,8 +53,8 @@
             const names = Array.from(document.querySelectorAll('.card-title'));
             const ids = Array.from(document.querySelectorAll('.product-id'));
             confirmButton.addEventListener('click', () => {
-                fetch(``, {
-                    method: '',
+                fetch(`/payment/checkout/ {{ cart.getId() }}`, {
+                    method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     }
@@ -90,6 +90,7 @@
                                     }
                                 }).then(() => {
                                     ids[index].remove();
+                                    updateTotal();
                                 });
                             } else {
                                 quantityInput.value = 1;
