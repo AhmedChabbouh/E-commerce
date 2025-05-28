@@ -12,38 +12,106 @@
 
                 <th colspan="2" style="padding-left: 25em;" scope="col">Product </th>
                 <th scope="col">Price</th>
-                <th scope="col">Quantity</th>
+                <th scope="col" style="padding-left: 1.5em;">Quantity</th>
             </tr>
             </thead>
             <tbody class="table-group">
 
                 {% for product in products %}
-                    <tr>
-                <td><img  style="width:18em; height:16em;" src= {{ product.getImage()}} ></td>
+                    <tr id="{{ product.getId() }}" class="product-id">
+                <td><img  class="image" style="width:18em; height:16em;" src= {{ product.getImage()}} ></td>
                 <td style="padding-top: 100px"><h5 class="card-title" > {{ product.getName()}} </h5>
                     <p class="card-text"> {{ product.getDescription()}} </p></td>
-                <td style="padding-top: 100px"> <label> {{ product.getPrice()}} $</label></td>
-                <td style="padding-left:30px;padding-top: 100px;">
-                    <button style="border:solid lightgrey;border-bottom-left-radius:5px; border-top-left-radius:5px;" onclick={{ path("app_cartchange_quantity",{typeOfChange:"remove",id: product.getId()}) }} >-</button>
-                    <label > {{ quantity[product.getId()]}} </label>
-                    <button style="border:solid lightgrey;border-bottom-right-radius:5px; border-top-right-radius:5px;" onclick={{ path("app_cartchange_quantity",{typeOfChange:"add",id: product.getId()}tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt) }} >+</button>
+                <td style="padding-top: 100px" class="price"> <label> {{ product.getPrice()}} $</label></td>
 
-                </td>
+                <td style="padding-top: 100px;"><input style="width:100px;"  class="quantity form-control text-center" type="number" min="0" value="{{ quantity[product.getId()] }}"></td>
 
-                </td>
 
 
             </tr>
             {% endfor %}
-                <td colspan="2" style="text-align: end;"><h5>Total Price :</h5></td>
-            <td>{{ totalPrice }}$</td>
+                <td colspan="2" style="text-align: end;"><h5 style="margin-top:5px;">Total Price :</h5></td>
+            <td ><label style="margin-top:6px;" id="total-price"></label></td>
+            <td><button id="confirm" class="btn btn-outline-secondary">Confirm Purchase</button></td>
             </tbody>
         </table>
 
 
-
-
         </div>
 
+{% endblock %}
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const confirmButton = document.getElementById('confirm');
+            const quantities = document.querySelectorAll('.quantity');
+            const prices = Array.from(document.querySelectorAll('.price'));
+            const totalPrice = document.getElementById('total-price');
+            const images = Array.from(document.querySelectorAll('.image'));
+            const names = Array.from(document.querySelectorAll('.card-title'));
+            const ids = Array.from(document.querySelectorAll('.product-id'));
+            confirmButton.addEventListener('click', () => {
+                fetch(``, {
+                    method: '',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+            })
+            function updateTotal() {
+                let total = 0;
+                quantities.forEach((quantityInput, index) => {
+                    const quantity = parseInt(quantityInput.value) || 0;
+                    const priceText = prices[index].textContent.trim().replace('$', '');
+                    const price = parseFloat(priceText);
+                    total += quantity * price;
+                });
+                totalPrice.textContent = total.toFixed(2) + ' $';
+            }
+
+            quantities.forEach((quantityInput, index) => {
+                quantityInput.addEventListener('change', () => {
+                    if(quantityInput.value == 0){
+                        Swal.fire({
+                            html: images[index].cloneNode().outerHTML,
+                            title: `Do you want to remove ${names[index].textContent} from your cart?`,
+                            showCancelButton: true,
+                            confirmButtonText: 'Yes',
+                            cancelButtonText: 'No',
+                        }).then((result) => {
+                            if(result.isConfirmed){
+                                const productId = ids[index].id;
+                                fetch(`/cart/remove/${productId}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    }
+                                }).then(() => {
+                                    ids[index].remove();
+                                });
+                            } else {
+                                quantityInput.value = 1;
+                            }
+                        });
+                    } else {
+                        const productId = ids[index].id;
+                        fetch(`/cart/changeQuantity/${productId}/${quantityInput.value}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            }
+                        });
+                    }
+                    updateTotal();
+                });
+            });
+
+            updateTotal();
+        });
+
+
+    </script>
 {% endblock %}
 

@@ -46,14 +46,11 @@ final class CartController extends AbstractController
         $cartId = $session->get('cart');
         $userId=$session->get('user');
         if(!isset($cartId)) {
-            $cart = new Cart();
-            $user=$doctrine->getRepository(User::class)->find($userId);
-            $cart->setUser($user);
-            $entityManager->persist($cart);
-            $entityManager->flush();
             $cart=$doctrine->getRepository(Cart::class)->findOneBy(['user' => $userId]);
             $cartId=$cart->getId();
-            $session->set('cart',$cartId);
+            if (!$cart) {
+                throw $this->createNotFoundException('Cart not found');
+            }
         }
 
         $cart=$doctrine->getRepository(Cart::class)->find($cartId);
@@ -73,27 +70,67 @@ final class CartController extends AbstractController
         return $this->redirectToRoute('app_cartshow_cart');
     }
 
-#[Route('/change_quantity/{typeOfChange}/{id}', name: 'change_quantity')]
-public function changeQuantity(string $typeOfChange,int $id,EntityManager $doctrine)
-{
-    $cartItem = $doctrine->getRepository(CartItem::class)->findOneBy(["product" =>$id]);
-  switch($typeOfChange)
-  {case "add":
-    $cartItem->setQuantity($cartItem->getQuantity() + 1);
-    break;
-    case "remove":
-        if($cartItem->getQuantity()>1)
-        {
-            $cartItem->setQuantity($cartItem->getQuantity() - 1);
+    #[Route('/remove/{id}', name: 'remove_from_cart', methods: ['DELETE'])]
+    public function removeFromCart(ManagerRegistry $doctrine, SessionInterface $session, int $id)
+    {
+        $product = $doctrine->getRepository(Product::class)->find($id);
+        if (!$product) {
+            throw $this->createNotFoundException('Product not found');
         }
-        else
-        {
-            $doctrine->remove($cartItem);
+        $session->start();
+        $session->set('user', 1);
+        $entityManager = $doctrine->getManager();
+        $cartId = $session->get('cart');
+        $userId=$session->get('user');
+        if(!isset($cartId)) {
+            $cart=$doctrine->getRepository(Cart::class)->findOneBy(['user' => $userId]);
+            $cartId=$cart->getId();
+            if (!$cart) {
+                throw $this->createNotFoundException('Cart not found');
+            }
         }
-        break;
-  }
-    $doctrine->flush();
-    return $this->redirectToRoute('app_cart_show_cart');
-  }
+        $cart=$doctrine->getRepository(Cart::class)->find($cartId);
+        $cartItem = $doctrine->getRepository(CartItem::class)->findOneBy(['product' => $product, 'cart' => $cartId]);
+        if (!$cartItem) {
+            throw $this->createNotFoundException('Cart item not found');
+        }
+        else {
+            $entityManager->remove($cartItem);
+        }
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_cartshow_cart');
+    }
+    #[Route('/changeQuantity/{id}/{quantity}', name: 'change_quantity', methods: ['POST'])]
+    public function changeQuantity($id,$quantity,ManagerRegistry $doctrine,SessionInterface $session)
+    {
+        $session->start();
+        $session->set('user', 1);
+        $entityManager = $doctrine->getManager();
+        $product = $doctrine->getRepository(Product::class)->find($id);
+        if (!$product) {
+            throw $this->createNotFoundException('Product not found');
+        }
+        $cartId = $session->get('cart');
+        $userId=$session->get('user');
+        if(!isset($cartId)) {
+            $cart=$doctrine->getRepository(Cart::class)->findOneBy(['user' => $userId]);
+            $cartId=$cart->getId();
+            if (!$cart) {
+                throw $this->createNotFoundException('Cart not found');
+            }
+        }
+        $cart=$doctrine->getRepository(Cart::class)->find($cartId);
+        $cartItem = $doctrine->getRepository(CartItem::class)->findOneBy(['product' => $product, 'cart' => $cartId]);
+
+
+        if($quantity>=1) {
+            $cartItem->setQuantity($quantity);
+            $entityManager->persist($cartItem);
+        }
+        $entityManager->flush();
+
+        return new Response("Quantity updated successfully");
+    }
 
 }
