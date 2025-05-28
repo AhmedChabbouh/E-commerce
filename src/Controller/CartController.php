@@ -42,7 +42,7 @@ final class CartController extends AbstractController
             $quantity[$product->getId()]=$cartItem->getQuantity();
             $products[] = $product;
         }
-        return $this->render('cart/cart.html.twig', ['products' => $products,'quantity' => $quantity,'totalPrice' => $totalPrice,'cart' => $cart]);
+        return $this->render('cart/cart.html.twig', ['products' => $products,'quantity' => $quantity,'totalPrice' => $totalPrice,'cart' => $cart,'cart_id'=>$cart->getId()]);
     }
 
 
