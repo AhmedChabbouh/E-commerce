@@ -22,7 +22,6 @@ class MailerService
             ->html('<p>helliw !!</p>');
 
         $this->mailer->send($email);
-
     }
 
 }
