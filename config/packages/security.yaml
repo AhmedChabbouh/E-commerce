@@ -18,12 +18,26 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            oauth:
+                resource_owners:
+                    facebook: "/login/check-facebook"
+                    google: "/login/check-google"
+                login_path: app_login
+                use_forward: false
+                failure_path: app_login
+
+
+                oauth_user_provider:
+                    service: hwi_oauth.user.provider.entity
+
+
             form_login:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
             logout:
                 path: app_logout
+            entry_point: form_login
                 # where to redirect after logout
                 # target: app_any_route
 
