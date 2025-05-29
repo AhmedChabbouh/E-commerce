@@ -24,6 +24,7 @@ final class ProductController extends AbstractController
             'products' =>$products
         ]);
     }
+
     #[Route('/addAnimal', name: 'product_add')]
 public function add_product(ManagerRegistry $doctrine):Response{
         $entityManager = $doctrine->getManager();

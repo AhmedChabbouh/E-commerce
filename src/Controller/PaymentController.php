@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Cart;
+use App\Entity\CartItem;
+use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,8 +22,10 @@ final class PaymentController extends AbstractController
             throw $this->createNotFoundException('cart not found');
         }
         $items = [];
-        foreach($cart->getCartItems() as $cartItem){
-            $product = $cartItem->getProduct();
+
+        $cartItems=$em->getRepository(CartItem::class)->findBy(['cart' => $cart]);
+        foreach($cartItems as $cartItem){
+            $product = $em->getRepository(Product::class)->find($cartItem->getProduct()->getId());
             $items[] = ['item_quantity' => $cartItem->getQuantity(), 'product_name' => $product->getName()
             ,'product_price' => $product->getPrice()
             ,'product_image' => $product->getImage()
@@ -40,17 +44,20 @@ final class PaymentController extends AbstractController
             throw $this->createNotFoundException('cart is not found');
         }
         $items = [];
-        foreach($cart->getCartItems() as $cartItem){
-            $product = $cartItem->getProduct();
+        $cartItems=$em->getRepository(CartItem::class)->findBy(['cart' => $cart]);
+        foreach($cartItems as $cartItem){
+            $product = $em->getRepository(Product::class)->find($cartItem->getProduct()->getId());
             $items[] = [
                 'price_data' => [
                     'currency' => 'usd',
                     'product_data' => [
                         'name' => $product->getName(),
                         'description' => $product->getDescription(),
-                        'image' => $product->getImage(),
+                        'images' => [
+                             $product->getImage()
+                        ],
                     ],
-                    'unit_amount' => $product->getStockQuantity(),
+                    'unit_amount' => $product->getPrice(),
                 ],
                 'quantity' => $cartItem->getQuantity(),
             ];

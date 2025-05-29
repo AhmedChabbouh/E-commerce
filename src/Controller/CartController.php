@@ -20,7 +20,7 @@ final class CartController extends AbstractController
     public function showCart(ManagerRegistry $doctrine,SessionInterface $session)
     {
         $session->start();
-        $session->set('user', 1);
+        $session->set('user', 2);
         $entityManager = $doctrine->getManager();
         $userId=$session->get('user');
         $cart=$doctrine->getRepository(Cart::class)->findOneBy(['user' => $userId]);
@@ -34,15 +34,21 @@ final class CartController extends AbstractController
         $cartItems= $doctrine->getRepository(CartItem::class)->findBy(['cart' => $cart]);
         $products=array();
         $quantity=[];
+        $isAnimal=[];
         $totalPrice=0;
         for ($i = 0; $i < count($cartItems); $i++) {
             $cartItem = $cartItems[$i];
             $totalPrice+=$cartItem->getProduct()->getPrice()*$cartItem->getQuantity();
             $product = $cartItem->getProduct();
             $quantity[$product->getId()]=$cartItem->getQuantity();
+            if( (new \ReflectionClass($product))->getShortName()=="AnimalProduct") {
+                $isAnimal[$product->getId()]=true;
+            } else {
+                $isAnimal[$product->getId()]=false;
+            }
             $products[] = $product;
         }
-        return $this->render('cart/cart.html.twig', ['products' => $products,'quantity' => $quantity,'totalPrice' => $totalPrice,'cart' => $cart,'cart_id'=>$cart->getId()]);
+        return $this->render('cart/cart.html.twig', ['products' => $products,'quantity' => $quantity,'totalPrice' => $totalPrice,'cart_id'=>$cart->getId(),'isAnimal'=>$isAnimal]);
     }
 
 
@@ -57,7 +63,7 @@ final class CartController extends AbstractController
     public function addToCart(ManagerRegistry $doctrine,SessionInterface $session, int $id)
     {
         $session->start();
-        $session->set('user', 1);
+        $session->set('user', 2);
         $entityManager = $doctrine->getManager();
         $product = $doctrine->getRepository(Product::class)->find($id);
         if (!$product) {
@@ -73,10 +79,13 @@ final class CartController extends AbstractController
             $entityManager->flush();
         }
         $cartItem = $doctrine->getRepository(CartItem::class)->findOneBy(['product' => $product, 'cart' => $cart]);
-        if(isset($cartItem)) {
+        if(isset($cartItem)&&((new \ReflectionClass($product))->getShortName()=="Product")) {
             $cartItem->setQuantity($cartItem->getQuantity() + 1);
             $entityManager->persist($cartItem);
-        } else {
+        } else if (isset($cartItem)&&((new \ReflectionClass($product))->getShortName()=="AnimalProduct")){
+            $cartItem->setQuantity(1);
+            $entityManager->persist($cartItem);
+        }else{
             $cartItem = new CartItem();
             $cartItem->setProduct($product);
             $cartItem->setQuantity(1);
@@ -101,7 +110,7 @@ final class CartController extends AbstractController
             throw $this->createNotFoundException('Product not found');
         }
         $session->start();
-        $session->set('user', 1);
+        $session->set('user', 2);
         $entityManager = $doctrine->getManager();
         $userId=$session->get('user');
         $cart=$doctrine->getRepository(Cart::class)->findOneBy(['user' => $userId]);
@@ -137,7 +146,7 @@ final class CartController extends AbstractController
     public function changeQuantity($id,$quantity,ManagerRegistry $doctrine,SessionInterface $session)
     {
         $session->start();
-        $session->set('user', 1);
+        $session->set('user', 2);
         $entityManager = $doctrine->getManager();
         $product = $doctrine->getRepository(Product::class)->find($id);
         if (!$product) {
