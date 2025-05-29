@@ -61,7 +61,7 @@ class RegistrationController extends AbstractController
 
             // do anything else you need here, like send an email
             $security->login($user);
-            return $this->redirectToRoute('app_productproduct_list' , ['categoryName' => 'chien']);
+            return $this->redirectToRoute('app_home' );
         }
 
         return $this->render('registration/register.html.twig', [
