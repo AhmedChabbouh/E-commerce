@@ -1,20 +1,221 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
-
-{% block body %}
+{% block title %}Home{% endblock %}
+ {% block stylesheets %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+
+
+
+
+     #loula{
+
+
+         background-image: url("{{ asset('images/cover.png') }}");
+         background-repeat: no-repeat;
+         background-size: cover;
+
+          margin:2px 2px 0 0;
+          width:100%;
+         height:500px;
+
+        }
+
+    .intro{
+        margin:120px 120px 120px 120px;
+        font-size:40px;
+        font-family: 'Comic Neue', cursive;
+        font-weight:bold;
+
+    }
+    #intro{
+        margin-left:180px ;
+        position: relative;
+    = relative;
+        top: -50px;}
+
+     .titre{
+        font-size:60px;
+        font-family: 'Comic Neue', cursive;
+        font-weight:bold;
+         margin-top:80px;
+         margin-left:0px;
+         padding:0 0 0 0;
+    }
+     .choice{
+         display:flex;
+         justify-content: space-around;
+         flex-wrap: wrap;
+         gap:10px;
+     }
+     .placement{
+
+         background-color:#f6f3f1;
+         background-repeat: no-repeat;
+         border-radius:10px;
+         height:100px;
+         width:310px;
+         padding:10px;
+         margin-top:50px;
+     }
+     .placement img {
+         height: 90px;
+         width: 90px;
+         border-radius: 100%;
+         display: flex;
+         align-items: center;
+         justify-content: flex-start;
+         position: relative;
+     = relative;
+         top: -6px;}
+
+     .product{
+         font-family: 'Comic Neue', cursive;
+         font-size: 20px;
+         font-weight: 600;
+         position:relative;
+         left:100px;
+         bottom:100px;
+         color:black;
+         text-decoration: none !important;
+     }
+     .description{
+         color:black;
+         font-size:15px;
+         font-family: 'Comic Neue', cursive;
+         font-weight:500;
+         position:relative;
+         left:100px;
+         top:-130px;
+         text-decoration: none !important;
+
+     }
+  #apropos{
+      margin-top:50px;
+      backrouground-color:#f6f3f1;
+  }
+
+.monji{
+    font-family: 'Comic Neue', cursive;
+    font-weight:500;
+    font-size:20px;
+}
+.monji1{
+    font-family: 'Comic Neue', cursive;
+    font-weight:500;
+    font-size:50px;
+}
+#products{
+    margin-top:50px;
+}
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+ {% endblock %}
+{% block body %}
+    <!--second part-->
+    <div class="row" id="loula">
+   <div class="col">
+       <h3 class="intro">
+           3ASSLEMA A DHAY3ET MA7ROUS! ACHETEZ LES MEILLEURS ANIMAUX ICI !
+       </h3>
+       <button id="intro" class="btn btn-success">learn more about us</button>
+   </div>
+        <div class="col"></div>
+    </div>
+<div class="container">
+    <h2 class="titre">🐾Choisir par Catégorie</h2>
+    <div data-aos="fade-left">
+    <div class="choice">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/e-commerce project/E-commerce/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>C:/e-commerce project/E-commerce/templates/home/index.html.twig</code></li>
-    </ul>
+        <div class="placement">
+            <a href="{{ path('app_productproduct_list', {'categoryName' : 'Chien' }) }}">
+                <img src="https://img.buzzfeed.com/buzzfeed-static/static/2023-08/2/22/asset/e796cf287b9b/sub-buzz-3391-1691014675-1.jpg?downsize=700%3A%2A&output-quality=auto&output-format=auto"/></a>
+            <p class="product">Chiens</p></br>
+            <p class="description">a7sen kleb fi tounes</p>
+        </div>
+        <div class="placement">
+            <a href="{{ path('app_productproduct_list', {'categoryName' : 'chats' }) }}"   >   <img src="https://i.redd.it/a2hdz4529iu71.jpg"/></a>
+            <p class="product">Chats </p></br>
+            <p class="description">a7sen qtates fi tounes</p>
+        </div>
+        <div class="placement">
+            <a href="{{ path('app_productproduct_list', {'categoryName' : 'poisson' }) }}"   ><img src="https://thumbs.dreamstime.com/b/beautiful-pretty-nice-cute-funny-fish-ocean-sea-aquarium-swimming-exotic-under-depth-colourful-reef-water-salt-ecosystem-303655473.jpg"/></a>
+            <p class="product">Poisson</p></br>
+            <p class="description">aqwa 7out fi tounes</p>
+        </div>
+        <div class="placement">
+            <a href="{{ path('app_productproduct_list', {'categoryName' : 'Rongeurs' }) }}"> <img src="https://modernfarmer.com/wp-content/uploads/2017/03/EnglishAngoraRabbit-1.jpg"/></a>
+            <p class="product">Rongeurs</p></br>
+            <p class="description">a7la firen/lapins fi tounes</p>
+        </div>
+        <div class="placement">
+            <a href="{{ path('app_productproduct_list', {'categoryName' : 'Oiseau' }) }}"   >  <img src="https://i.pinimg.com/736x/4c/3a/49/4c3a497fc0cb264ef9e2b2482d4859a2.jpg"/></a>
+            <p class="product">Oiseaux</p></br>
+            <p class="description">a9wa 3safer fi tounes</p>
+        </div>
+        <div class="placement">
+            <a href="{{ path('app_productproduct_list', {'categoryName' : 'Aliments' }) }}"   >  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnFl07pl5PJML6WZNf4GucMnzUecEPbYKDcss2si1d96dDwzJVgiXsgiQUOoYd8-nZd1E&usqp=CAU"/></a>
+            <p class="product"> aliments</p></br>
+            <p class="description"> Echrilhom mekla</p>
+        </div>
+        <div class="placement">
+            <a href="{{ path('app_productproduct_list', {'categoryName' : 'Habitats' }) }}"   > <img src="https://dog-and-cat-design.com/wp-content/uploads/2024/06/niche-pour-chat-en-bois-design-11.png"/></a>
+            <p class="product">Hbitats</p></br>
+            <p class="description">diar 7ayawenet</p>
+        </div>
+        <div class="placement">
+            <a href="{{ path('app_productproduct_list', {'categoryName' : '3alloush el 3id' }) }}"   > <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5hJztGJsUoZtYc_eD20qSiA02EXoxhDbJfQ&s"/></a>
+            <p class="product">3allouch el 3id</p></br>
+            <p class="description">3lelch ra7ba</p>
+        </div>
 </div>
+    </div>
+</div>
+    <div class="container mt-5" >
+        <h2 class="titre">🐾 Notre Agent</h2>
+        <div data-aos="fade-left">
+        <div class="row align-items-center" id="apropos">
+            <div class="col-4">
+                <img src="{{ asset('images/elMenji.jpg') }}" alt="El-Menji" class="img-fluid rounded">
+            </div>
+
+            <div class="col-8 ps-4">
+                <h2 class="fs-4 fw-bold mb-2 monji1">El-Menji</h2>
+                <p class="monji">
+                    Bonjour ! Je m'appelle El-Menji et j'ai 44 ans. Je suis passionné par les animaux depuis l'enfance.<br>
+                    Je suis ici pour vous aider à choisir votre prochain animal de compagnie !Ce site web va vous aider à naviguer dans les
+                    meilleurs plans d'achats d'animaux en Tunisie , n'hésitez pas à choisir les produits que vous souhaitez acheter et passez vite vos commandes!
+                </p>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="container">
+        <h2 class="titre">🐾 Nos Produits</h2>
+
+
+        <div data-aos="fade-up">
+        <div class="row" id="products">
+
+            {% for product in products %}
+                <div class="col-3 "style="display:flex; align-items: stretch;">
+                    <div class="card" id="{{ product.getId() }}" style="width: 18rem;height:auto;margin-bottom:25px;background-color:#f6f3f1;">
+                        <img class="card-img-top " style="height:350px;" src= {% block image %} {{ product.getImage()}} {% endblock %}>
+                        <div class="card-body">
+                            <h5 class="card-title">{% block name %} {{ product.getName()}} {% endblock %}</h5>
+
+                            <p class="card-text">{% block description %} {{ product.getDescription()}} {% endblock %}</p>
+                            <label>{% block price %} {{ product.getPrice()}} {% endblock %}$</label><br><br>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 {% endblock %}

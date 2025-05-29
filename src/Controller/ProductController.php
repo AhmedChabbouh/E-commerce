@@ -39,6 +39,9 @@ public function add_product(ManagerRegistry $doctrine):Response{
         $category2= $doctrine->getRepository(Category::class)->findOneBy(['name' => 'Chats']);
         $category3 = $doctrine->getRepository(Category::class)->findOneBy(['name' => 'Oiseau']);
         $category4 = $doctrine->getRepository(Category::class)->findOneBy(['name' => 'poisson']);
+        $category5 = $doctrine->getRepository(Category::class)->findOneBy(['name' => 'Aliments']);
+        $category6 = $doctrine->getRepository(Category::class)->findOneBy(['name' => 'Habitats']);
+        $category7 = $doctrine->getRepository(Category::class)->findOneBy(['name' => '3alloush el 3id']);
 
 
 
@@ -379,22 +382,145 @@ Ils commencent à être propre. Ils partiront avec un Pedigree Internationale, v
 
 
 
+        $animal19= new AnimalProduct();
+        $animal19->setName('Baganda');
+        $animal19->setPrice(150);
+        $animal19->setCategory($category2);
+        $animal19->setDescription("katoussa tekel el bsisa.");
+        $animal19->setBreed('chat');
+        $animal19->setSpecies('chat tounsi');
+        $animal19->setGender('Femelle');
+        $animal19->setAge("4 mois");
+        $animal19->setStockQuantity(1);
+        $animal19->setInfo("Les lapins nains sont calmes et joueurs. Ils peuvent vivre en liberté dans la maison, à condition d’être surveillés.");
+        $animal19->setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQn1D0C5OX9mHY8c-D-xDLwa9EwO81_56KA7A&s");
+
+
+        $animal20= new AnimalProduct();
+        $animal20->setName('3antar');
+        $animal20->setPrice(1500);
+        $animal20->setCategory($category7);
+        $animal20->setDescription("3alloush el 3id bl groun");
+        $animal20->setBreed('mouton');
+        $animal20->setSpecies('3alloush');
+        $animal20->setGender('Male');
+        $animal20->setAge("18mois");
+        $animal20->setStockQuantity(1);
+        $animal20->setInfo("Ce mouton est bien préparé pour étre une sacrifice de l'AID il est apte à faire des combats avec les autres moutons.");
+        $animal20->setImage("https://cdn2.webmanagercenter.com/di/wp-content/uploads/2013/10/18-mouton-portrait.jpg");
+
+
+
+
+        $animal21= new AnimalProduct();
+        $animal21->setName('Ba3bou3');
+        $animal21->setPrice(800);
+        $animal21->setCategory($category7);
+        $animal21->setDescription("3alloush el 3id ");
+        $animal21->setBreed('mouton');
+        $animal21->setSpecies('3alloush');
+        $animal21->setGender('Male');
+        $animal21->setAge("12mois");
+        $animal21->setStockQuantity(1);
+        $animal21->setInfo("Petit mouton à laine blanche sans cornes , il est né dans une ferme écologique et alimenté avec une alimentation bio sans produits chimique .");
+        $animal21->setImage("https://cdn2.webmanagercenter.com/di/wp-content/uploads/2013/10/18-mouton-portrait.jpg");
 
 
 
 
 
 
-        $entityManager->persist($animal9);
-        $entityManager->persist($animal10);
-        $entityManager->persist($animal11);
-        $entityManager->persist($animal12);
-        $entityManager->persist($animal13);
-        $entityManager->persist($animal14);
-        $entityManager->persist($animal15);
-        $entityManager->persist($animal16);
-        $entityManager->persist($animal17);
-        $entityManager->persist($animal18);
+
+      $produit1=new Product();
+      $produit1->setName('Pylkron chat complet');
+      $produit1->setPrice(27.700);
+      $produit1->setCategory($category5);
+      $produit1->setDescription("Croquette pour chat");
+      $produit1->setInfo('Aliment complet et équilibré destiné aux chats adultes. Hautement digestible et formulé spécifiquement pour garantir le fonctionnement correct de lorganisme du chat et pour protéger son système urinaire.');
+      $produit1->setStockQuantity(9);
+      $produit1->setImage('https://animalzone.tn/37-large_default/pylkron-chat-complet-15kg.webp');
+
+
+        $produit2=new Product();
+        $produit2->setName('Miligor gatto adulte');
+        $produit2->setPrice(30);
+        $produit2->setCategory($category5);
+        $produit2->setDescription("Croquette pour chat");
+        $produit2->setInfo('Croquettes pour chat adulte au Boeuf. Formule équilibrée en minéraux.');
+        $produit2->setStockQuantity(2);
+        $produit2->setImage('https://animalzone.tn/110-large_default/miglior-gatto-adult-boeuf-2-kg-miglior-gatto-tunisie.webp');
+
+
+
+
+        $produit3=new Product();
+        $produit3->setName('Niche chien');
+        $produit3->setPrice(911);
+        $produit3->setCategory($category6);
+        $produit3->setDescription("niche chalet ");
+        $produit3->setInfo('Niche chalet en bois pour usage chien , volume de 2 m largeur ,logeur et hauteur.');
+        $produit3->setStockQuantity(3);
+        $produit3->setImage('https://zanimo.tn/_next/image?url=https%3A%2F%2Fassets.zanimo.tn%2Fproduits%2F8023222056442.jpg&w=1200&q=75');
+
+        $produit4=new Product();
+        $produit4->setName('Aquarium');
+        $produit4->setPrice(911);
+        $produit4->setCategory($category6);
+        $produit4->setDescription("Aquarium Amtara cube ");
+        $produit4->setInfo('déal pour décorer votre intérieur, il crée un environnement apaisant tout en assurant le bien-être des poissons grâce à un système de filtration performant et un éclairage LED doux qui met en valeur chaque mouvement sous-marin..');
+        $produit4->setStockQuantity(1);
+        $produit4->setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqOvmh8OLEOGfmsLGzr0Ih-fLIWSd0GjJ4jGUuUVuFKgf3S2-IR3ubpg1PWY7GKUj_wPM&usqp=CAU");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //$entityManager->persist($animal19);
+
+
+
+        //  $entityManager->persist($animal9);
+       // $entityManager->persist($animal10);
+       // $entityManager->persist($animal11);
+      //  $entityManager->persist($animal12);
+      //  $entityManager->persist($animal13);
+       // $entityManager->persist($animal14);
+      //  $entityManager->persist($animal15);
+       // $entityManager->persist($animal16);
+      //  $entityManager->persist($animal17);
+       // $entityManager->persist($animal18);
+  $entityManager->persist($produit4);
+  $entityManager->persist($produit2);
+  $entityManager->persist($produit3);
+  $entityManager->persist($produit1);
+
+        $entityManager->persist($animal20);
+        $entityManager->persist($animal21);
+
+
+
 
         $entityManager->flush();
 
