@@ -1,34 +1,61 @@
 {% extends 'base.html.twig' %}
 {% block title %}Product list{% endblock %}
 {% block body %}
-
-    <div class="container " style="margin-top:50px;">
-    <div class="row">
-
-    {% for product in products %}
-        <div class="col-3 "style="display:flex; align-items: stretch;">
-            <form method="POST" action="{{ path('app_cartadd_to_cart', {id: product.getId()}) }}">
-            <button id="{{ product.getId() }}" style="border:none;background-color: transparent">
-<div class="card" id="{{ product.getId() }}" style="width: 18rem;height:auto;margin-bottom:25px">
-    <img class="card-img-top " style="height:350px;" src=  {{ product.getImage()}} >
-    <div class="card-body">
-    <h5 class="card-title"> {{ product.getName()}} </h5>
-
-    <p class="card-text"> {{ product.getDescription()}} </p>
-    <label> {{ product.getPrice()}} $</label><br><br>
-
-
-
-
-    </div>
-</div>
-            </button>
-            </form>
+    <div class="container" style="margin-top:50px;">
+        <div class="row" id="productContainer">
+            {% for product in products %}
+                <div class="col-3 product-item">
+                    <form method="POST" action="{{ path('app_cartadd_to_cart', {id: product.getId()}) }}">
+                        <button type="submit" style="border:none;background-color: transparent; width: 100%; padding: 0;">
+                            <div class="card h-100">
+                                <img class="card-img-top" style="height:350px; object-fit: cover;" src="{{ product.getImage() }}">
+                                <div class="card-body">
+                                    <h5 class="card-title product-name">{{ product.getName() }}</h5>
+                                    <p class="card-text product-description">{{ product.getDescription() }}</p>
+                                    <p>{{ product.getPrice() }} $</p>
+                                </div>
+                            </div>
+                        </button>
+                    </form>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
-
-    </div>
     </div>
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForm = document.getElementById('navbarSearchForm');
+            const searchInput = document.getElementById('navbarSearchInput');
+            const productItems = document.querySelectorAll('.product-item');
 
+            function filterProducts() {
+                const searchTerm = searchInput.value.trim().toLowerCase();
+
+                productItems.forEach(item => {
+                    const button = item.querySelector('button[type="submit"]');
+                    const productName = button.querySelector('.card-title').textContent.toLowerCase();
+                    if (searchTerm === '' || productName.startsWith(searchTerm)) {
+                        item.style.display = 'block';
+                    }
+                    else if (productName.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    }
+                    else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+
+            searchInput.addEventListener('input', filterProducts);
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                filterProducts();
+            });
+
+            filterProducts();
+        });
+    </script>
+{% endblock %}
