@@ -17,16 +17,14 @@ use Symfony\Component\Routing\Attribute\Route;
 final class CartController extends AbstractController
 {
     #[Route('/show_cart', name: 'show_cart')]
-    public function showCart(ManagerRegistry $doctrine,SessionInterface $session)
+    public function showCart(ManagerRegistry $doctrine)
     {
-        $session->start();
-
+        $user=$this->getUser();
         $entityManager = $doctrine->getManager();
-        $userId=$session->get('user');
-        $cart=$doctrine->getRepository(Cart::class)->findOneBy(['user' => $userId]);
+        $cart=$doctrine->getRepository(Cart::class)->findOneBy(['user' => $user->getId()]);
         if(!$cart) {
             $cart = new Cart();
-            $user = $doctrine->getRepository(User::class)->find($userId);
+            $user = $doctrine->getRepository(User::class)->find($user->getId());
             $cart->setUser($user);
             $entityManager->persist($cart);
             $entityManager->flush();
@@ -60,15 +58,15 @@ final class CartController extends AbstractController
 
 
     #[Route('/add/{id}', name: 'add_to_cart',methods: ['POST'])]
-    public function addToCart(ManagerRegistry $doctrine,SessionInterface $session, int $id)
+    public function addToCart(ManagerRegistry $doctrine, int $id)
     {
-        $session->start();
+        $user=$this->getUser();
         $entityManager = $doctrine->getManager();
         $product = $doctrine->getRepository(Product::class)->find($id);
         if (!$product) {
             throw $this->createNotFoundException('Product not found');
         }
-        $userId=$session->get('user');
+        $userId=$user->getId();
         $cart=$doctrine->getRepository(Cart::class)->findOneBy(['user' => $userId]);
         if(!$cart) {
             $cart = new Cart();
@@ -102,15 +100,15 @@ final class CartController extends AbstractController
 
 
     #[Route('/remove/{id}', name: 'remove_from_cart', methods: ['DELETE'])]
-    public function removeFromCart(ManagerRegistry $doctrine, SessionInterface $session, int $id)
+    public function removeFromCart(ManagerRegistry $doctrine, int $id)
     {
         $product = $doctrine->getRepository(Product::class)->find($id);
         if (!$product) {
             throw $this->createNotFoundException('Product not found');
         }
-        $session->start();
+        $user=$this->getUser();
         $entityManager = $doctrine->getManager();
-        $userId=$session->get('user');
+        $userId=$user->getId();
         $cart=$doctrine->getRepository(Cart::class)->findOneBy(['user' => $userId]);
         if(!$cart) {
             $cart = new Cart();
@@ -141,17 +139,15 @@ final class CartController extends AbstractController
 
 
     #[Route('/changeQuantity/{id}/{quantity}', name: 'change_quantity', methods: ['POST'])]
-    public function changeQuantity($id,$quantity,ManagerRegistry $doctrine,SessionInterface $session)
+    public function changeQuantity($id,$quantity,ManagerRegistry $doctrine)
     {
-        $session->start();
-
         $entityManager = $doctrine->getManager();
         $product = $doctrine->getRepository(Product::class)->find($id);
         if (!$product) {
             throw $this->createNotFoundException('Product not found');
         }
-        $userId=$session->get('user');
-
+        $user=$this->getUser();
+        $userId=$user->getId();
         $cart=$doctrine->getRepository(Cart::class)->findOneBy(['user' => $userId]);
                 if(!$cart) {
                     $cart = new Cart();
