@@ -20,6 +20,11 @@ final class ProductController extends AbstractController
 
         $repo = $doctrine->getRepository(Product::class);
         $products = $repo->findBy(['category'=>$category]);
+        foreach ($products as $product) {
+            if ($product->getStockQuantity()==0) {
+                $products.remove($product);
+            }
+        }
         return $this->render('product/list.html.twig', [
             'products' =>$products
         ]);
