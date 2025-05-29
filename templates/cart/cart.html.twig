@@ -34,7 +34,7 @@
             {% endfor %}
                 <td colspan="2" style="text-align: end;"><h5 style="margin-top:5px;">Total Price :</h5></td>
             <td ><label style="margin-top:6px;" id="total-price"></label></td>
-            <td><button id="confirm" class="btn btn-outline-secondary">Confirm Purchase</button></td>
+            <td><a href={{ path('checkout', {'cartId': cart_id}) }} id="confirm" class="btn btn-outline-secondary">Confirm Purchase</a></td>
             </tbody>
         </table>
 
@@ -47,32 +47,15 @@
     <script>
 
         document.addEventListener('DOMContentLoaded', () => {
-            const confirmButton = document.getElementById('confirm');
+
             const quantities = document.querySelectorAll('.quantity');
             const prices = Array.from(document.querySelectorAll('.price'));
             const totalPrice = document.getElementById('total-price');
             const images = Array.from(document.querySelectorAll('.image'));
             const names = Array.from(document.querySelectorAll('.card-title'));
             const ids = Array.from(document.querySelectorAll('.product-id'));
-            confirmButton.addEventListener('click', () => {
-                fetch(`/checkout/ {{ cart_id }}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                    .then(response => {
-                        if (response.redirected) {
-                            return fetch(`/payment/{{ cart_id }}`, {
-                                method: 'GET',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                }
-                            });
-                        }
-                        throw new Error('Checkout failed');
-                    })
-            })
+
+
             function updateTotal() {
                 let total = 0;
                 quantities.forEach((quantityInput, index) => {

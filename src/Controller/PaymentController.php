@@ -57,7 +57,7 @@ final class PaymentController extends AbstractController
                              $product->getImage()
                         ],
                     ],
-                    'unit_amount' => $product->getPrice(),
+                    'unit_amount' => (int) round($product->getPrice() * 100),
                 ],
                 'quantity' => $cartItem->getQuantity(),
             ];
@@ -69,7 +69,6 @@ final class PaymentController extends AbstractController
             'success_url' => $this->generateUrl('success_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
             'cancel_url' => $this->generateUrl('cancel_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
         ]);
-
 
         return $this->redirect($session->url,303);
 
