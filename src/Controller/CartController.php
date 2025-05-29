@@ -20,7 +20,7 @@ final class CartController extends AbstractController
     public function showCart(ManagerRegistry $doctrine,SessionInterface $session)
     {
         $session->start();
-        $session->set('user', 2);
+
         $entityManager = $doctrine->getManager();
         $userId=$session->get('user');
         $cart=$doctrine->getRepository(Cart::class)->findOneBy(['user' => $userId]);
@@ -63,7 +63,6 @@ final class CartController extends AbstractController
     public function addToCart(ManagerRegistry $doctrine,SessionInterface $session, int $id)
     {
         $session->start();
-        $session->set('user', 2);
         $entityManager = $doctrine->getManager();
         $product = $doctrine->getRepository(Product::class)->find($id);
         if (!$product) {
@@ -110,7 +109,6 @@ final class CartController extends AbstractController
             throw $this->createNotFoundException('Product not found');
         }
         $session->start();
-        $session->set('user', 2);
         $entityManager = $doctrine->getManager();
         $userId=$session->get('user');
         $cart=$doctrine->getRepository(Cart::class)->findOneBy(['user' => $userId]);
@@ -146,7 +144,7 @@ final class CartController extends AbstractController
     public function changeQuantity($id,$quantity,ManagerRegistry $doctrine,SessionInterface $session)
     {
         $session->start();
-        $session->set('user', 2);
+
         $entityManager = $doctrine->getManager();
         $product = $doctrine->getRepository(Product::class)->find($id);
         if (!$product) {

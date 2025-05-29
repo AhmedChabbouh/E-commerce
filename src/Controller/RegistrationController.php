@@ -49,7 +49,9 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-
+            $userId=$user->getId();
+            $session = $request->getSession();
+            $session->set('user', $userId);
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
@@ -61,7 +63,7 @@ class RegistrationController extends AbstractController
 
             // do anything else you need here, like send an email
             $security->login($user);
-            return $this->redirectToRoute('app_productproduct_list');
+            return $this->redirectToRoute('app_productproduct_list' , ['categoryName' => 'chien']);
         }
 
         return $this->render('registration/register.html.twig', [

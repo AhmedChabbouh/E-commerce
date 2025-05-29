@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\AnimalProduct;
 use App\Entity\Category;
 
-#[Route('/product', name: 'app_product')]
+#[Route( '/product', name: 'app_product')]
 final class ProductController extends AbstractController
 {
     #[Route('/list/{categoryName}', name: 'product_list')]
