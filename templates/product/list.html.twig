@@ -2,9 +2,13 @@
 {% block title %}Product list{% endblock %}
 {%  block stylesheets    %}
 <style>
-    .btn{
-        background-color:#2e7d32 ;
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
     body{
         background-color:	#d6d1ce;
@@ -19,13 +23,13 @@
     {% for product in products %}
         <div class="col-3 "style="display:flex; align-items: stretch;">
 <div class="card" id="{{ product.getId() }}" style="width: 18rem;height:auto;margin-bottom:25px;background-color:#f6f3f1;">
-    <img class="card-img-top " style="height:350px;" src= {% block image %} {{ product.getImage()}} {% endblock %}>
+    <a href="{{ path('app_product_details', {'productId' : product.id }) }}"> <img class="card-img-top " style="height:350px;" src= {% block image %} {{ product.getImage()}} {% endblock %}></a>
     <div class="card-body">
     <h5 class="card-title">{% block name %} {{ product.getName()}} {% endblock %}</h5>
 
     <p class="card-text">{% block description %} {{ product.getDescription()}} {% endblock %}</p>
     <label>{% block price %} {{ product.getPrice()}} {% endblock %}$</label><br><br>
-        <button   id="{{ product.getId() }}" class="btn " >Add to cart 🛒</button>
+
     </div>
 </div>
         </div>
