@@ -6,10 +6,10 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
       # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-abc}
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
     healthcheck:
-      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
+      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-admin}"]
       timeout: 5s
       retries: 5
       start_period: 60s
@@ -18,8 +18,19 @@ services:
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: amin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 1234
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
 
 volumes:
 ###> doctrine/doctrine-bundle ###
   database_data:
+  pgadmin_data:
 ###< doctrine/doctrine-bundle ###
