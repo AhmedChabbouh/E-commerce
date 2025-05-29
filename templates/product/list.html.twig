@@ -1,5 +1,16 @@
 {% extends 'base.html.twig' %}
 {% block title %}Product list{% endblock %}
+{%  block stylesheets    %}
+<style>
+    .btn{
+        background-color:#2e7d32 ;
+
+    }
+    body{
+        background-color:	#d6d1ce;
+    }
+</style>
+{% endblock %}
 {% block body %}
 
     <div class="container " style="margin-top:50px;">
@@ -7,14 +18,14 @@
 
     {% for product in products %}
         <div class="col-3 "style="display:flex; align-items: stretch;">
-<div class="card" id="{{ product.getId() }}" style="width: 18rem;height:auto;margin-bottom:25px">
+<div class="card" id="{{ product.getId() }}" style="width: 18rem;height:auto;margin-bottom:25px;background-color:#f6f3f1;">
     <img class="card-img-top " style="height:350px;" src= {% block image %} {{ product.getImage()}} {% endblock %}>
     <div class="card-body">
     <h5 class="card-title">{% block name %} {{ product.getName()}} {% endblock %}</h5>
 
     <p class="card-text">{% block description %} {{ product.getDescription()}} {% endblock %}</p>
     <label>{% block price %} {{ product.getPrice()}} {% endblock %}$</label><br><br>
-        <button   id="{{ product.getId() }}" class="btn btn-primary" >Add to cart 🛒</button>
+        <button   id="{{ product.getId() }}" class="btn " >Add to cart 🛒</button>
     </div>
 </div>
         </div>
@@ -25,7 +36,7 @@
 {% endblock %}
 {% block javascripts %}
 <script>
-    document.querySelectorAll('.btn.btn-primary').forEach(button => {
+    document.querySelectorAll('.btn').forEach(button => {
         button.addEventListener('click', () => {
             const productId = button.id;
 
