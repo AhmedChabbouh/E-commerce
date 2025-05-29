@@ -5,8 +5,16 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[ORM\InheritanceType("JOINED")]
+#[ORM\DiscriminatorColumn(name: "discr", type: "string")]
+#[ORM\DiscriminatorMap([
+    "product" => Product::class,
+    "animal" => AnimalProduct::class,
+])]
+
+
+
 class Product
 {
     #[ORM\Id]
@@ -25,6 +33,9 @@ class Product
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $image = null;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $info = null;
+
 
     #[ORM\Column]
     private ?int $stockQuantity = null;
@@ -114,7 +125,12 @@ class Product
 
         return $this;
     }
-
+public function getInfo(): ?string{
+       return $this->info;
+}
+public function setInfo(string $info): static{
+    $this->info = $info;
+   return $this;}
 
 
 }
