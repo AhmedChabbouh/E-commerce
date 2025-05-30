@@ -24,7 +24,7 @@ security:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
-                default_target_path: /product/list/
+                default_target_path: app_home
             logout:
                 path: app_logout
                 target: /login
@@ -36,7 +36,7 @@ security:
                 use_forward: false
                 failure_path: /login
                 #TODO: what success path?
-                default_target_path: /product/list/
+                default_target_path: app_home
 
 
                 oauth_user_provider:
