@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AboutUsController!{% endblock %}
+{% block stylesheets %}
+<style>
+.row{
+    margin-top:50px;
+    margin-bottom:50px;
+}
+h2{
+    font-family: 'Comic Neue', cursive;
+
+    font-weight: 600;
+}
+.row p{
+    font-family: 'Comic Neue', cursive;
+    font-size: 20px;
+
+}
+</style>
+
+
+
+{% endblock %}
+{% block body %}
+    <div class="container mt-5" >
+        <h2 class="titre">🐾 Qui sommes nous?</h2>
+        <div data-aos="fade-left">
+            <div class="row align-items-center" >
+                <div class="col-4">
+                    <img src="{{ asset('images/elMenji.jpg') }}" alt="El-Menji" class="img-fluid rounded">
+                </div>
+
+                <div class="col-8 ps-4">
+                    <h2 class="fs-4 fw-bold mb-2 monji1">El-Menji</h2>
+                    <p class="monji">
+                        Bonjour ! Je m'appelle El-Menji et j'ai 44 ans. Je suis passionné par les animaux depuis l'enfance.<br>
+                        Je suis ici pour vous aider à choisir votre prochain animal de compagnie !Ce site web va vous aider à naviguer dans les
+                        meilleurs plans d'achats d'animaux en Tunisie , n'hésitez pas à choisir les produits que vous souhaitez acheter et passez vite vos commandes!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+        <div data-aos="fade-right">
+            <div class="row align-items-center" >
+                <div class="col-8 ps-4" >
+                    <h2 class="fs-4 fw-bold mb-2 monji1">Dorra</h2>
+                    <p class="monji">
+                        Bonjour ! Je m'appelle Dorra et j'ai 21 ans. Je suis pour vous assister à trouver votre future compagnon<br>
+                        Ce site web est conçu pour vous aider à faire un choix meilleur ! On vous présente une varieté de produits qui peuvent vous plaire!
+                    </p>
+                </div>
+
+                <div class="col-4">
+
+
+                    <img src="{{ asset('images/Dorra.jpg') }}" alt="El-Menji" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
+
+
+        <div data-aos="fade-left">
+            <div class="row align-items-center" >
+                <div class="col-4" >
+                    <img src="{{ asset('images/Chabbouh.jpg') }}" alt="El-Menji" class="img-fluid rounded">
+
+                </div>
+
+                <div class="col-8 ps-4">
+
+                    <h2 class="fs-4 fw-bold mb-2 monji1">Ahmed</h2>
+                    <p class="monji">
+                        Je suis Ahmed, et je m’occupe principalement de nos adorables félins. Les chats demandent de l’attention et de la douceur, et je suis là pour m’assurer qu’ils soient bien traités. Je peux vous guider dans le choix de votre futur compagnon, mais aussi vous conseiller sur les soins quotidiens. Un chat heureux, c’est un foyer apaisé..<br>
+
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div data-aos="fade-right">
+            <div class="row align-items-center" >
+                <div class="col-8 ps-4" >
+
+                    <h2 class="fs-4 fw-bold mb-2 monji1">Ghassen</h2>
+                    <p class="monji">
+                        Bonjour ! Je m'appelle Ghassen et je suis passionnée par les chiens depuis l'enfance. Mon rôle ici est de veiller à leur bien-être et d'aider nos clients à trouver le compagnon idéal. N’hésitez pas à me demander des conseils sur les races, l’éducation ou l’alimentation. Chaque chien a sa personnalité, et je serai ravie de vous aider à découvrir celle qui vous correspond.<br>
+
+                    </p>
+                </div>
+
+                <div class="col-4">
+                    <img src="{{ asset('images/Ghassen.jpeg') }}" alt="El-Menji" class="img-fluid rounded">
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+{% endblock %}

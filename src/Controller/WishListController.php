@@ -8,6 +8,7 @@ use App\Entity\Wishlist;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -18,6 +19,9 @@ final class WishListController extends AbstractController
     public function showList(ManagerRegistry $doctrine): Response
     {
         $user = $this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('app_login');
+        }
         $entityManager = $doctrine->getManager();
         $wishlist = $entityManager->getRepository(Wishlist::class)->findOneBy(['user'=>$user->getId()]);
         if(!$wishlist){
@@ -42,9 +46,12 @@ final class WishListController extends AbstractController
     }
 
     #[Route('/add/{id}', name: 'app_wishlist_add', methods: ['POST'])]
-    public function addToWishlist(int $id, ManagerRegistry $doctrine): Response
+    public function addToWishlist(int $id, ManagerRegistry $doctrine,Request $request): Response
     {
         $user = $this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('app_login');
+        }
         $entityManager = $doctrine->getManager();
 
         $product = $doctrine->getRepository(Product::class)->find($id);
@@ -73,7 +80,7 @@ final class WishListController extends AbstractController
         $entityManager->flush();
 
         $this->addFlash('success', $message);
-        return $this->redirectToRoute('app_wish_listapp_wish_list_show');
+        return $this->redirect($request->headers->get('referer'));
 
 
 

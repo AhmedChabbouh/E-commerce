@@ -1,0 +1,14 @@
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+        <h5 class="card-title text-success fw-bold mb-3">Nos Categories</h5>
+        <ul class="list-unstyled">
+            {% for category in categories %}
+                <li class="mb-2">
+                    <a href="{{ path('app_productproduct_list', {categoryName: category.getName()}) }} " class="text-dark text-decoration-none category-link">
+                        {{ category.getName() }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

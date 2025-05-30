@@ -38,7 +38,7 @@ class AnimalProduct extends Product
         return $this;
     }
 
-    public function getAge(): ?int
+    public function getAge(): ?String
     {
         return $this->age;
     }

@@ -1,32 +1,78 @@
 {% extends 'base.html.twig' %}
 {% block title %}Product list{% endblock %}
-{% block body %}
-    <div class="container" style="margin-top:50px;">
-        <div class="row" id="productContainer" style="display: flex; flex-wrap: wrap; gap: 20px;">
-            {% for product in products %}
-                <div class="product-item" style="position: relative; flex: 0 0 calc(25% - 20px);">
-                    <form method="POST" action="{{ path('app_wish_listapp_wishlist_add', {id: product.getId()}) }}"
-                          style="position: absolute; top: 10px; right: 10px; z-index: 10;">
-                        <button type="submit" class="wishlist-btn" style="border: none; background: white; border-radius: 50%; width: 36px; height: 36px; padding: 0; cursor: pointer;">
-                            ♥
-                        </button>
-                    </form>
 
-                    <form method="POST" action="{{ path('app_cartadd_to_cart', {id: product.getId()}) }}">
-                        <button type="submit" style="border:none;background-color: transparent; width: 100%; padding: 0;">
-                            <div class="card h-100">
-{#                                image either saved in /uploads/images or url#}
-                                <img class="card-img-top" style="height:350px; object-fit: cover;" src="{{  asset('uploads/images/' ~ product.image) }}" alt='' onerror="this.src='{{ product.image }}'" >
-                                <div class="card-body">
-                                    <h5 class="card-title product-name">{{ product.getName() }}</h5>
-                                    <p class="card-text product-description">{{ product.getDescription()|raw }}</p>
-                                    <p>{{ product.getPrice() }} $</p>
-                                </div>
+{%  block stylesheets    %}
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .btn-success {
+        background-color: #198754;
+        border-color: #198754;
+    }
+
+    .btn-success:hover {
+        background-color: #146c43;
+        border-color: #146c43;
+    }
+
+    .card-title, .card-text {
+        color: #000;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    body{
+        background-color:	#d6d1ce;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                {% include 'aside.html.twig' %}
+            </div>
+            <div class="col-md-9" style="margin-top:50px;">
+                <div class="row" id="productContainer" style="display: flex; flex-wrap: wrap; gap: 20px;">
+
+                    {% for product in products %}
+                        <div class="product-item col-md-6" style="flex: 0 0 calc(25% - 20px); margin-top: 20px;">
+
+                            <div class="card h-100" id="{{ product.getId() }}" style="width: 18rem; height:auto; margin-bottom:25px; position: relative;">
+
+                                <form method="POST" action="{{ path('app_wish_listapp_wishlist_add', {id: product.getId()}) }}"
+                                      style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                                    {% set isInWishlist = product.getId() in wishlistProductIds %}
+                                    <button type="submit" class="btn btn-light border rounded-circle p-0" style="width:36px; height:36px;">
+                                        {% if isInWishlist %}
+                                            <i class="bi bi-heart-fill text-success"></i>
+                                        {% else %}
+                                            <i class="bi bi-heart text-success"></i>
+                                        {% endif %}
+                                    </button>
+                                </form>
+
+                                <a href="{{ path('app_product_details', {productId: product.getId()}) }}"
+                                   style="text-decoration: none; color: black;">
+                                    <img class="card-img-top" style="height:350px; object-fit: cover;" src="{{  asset('uploads/images/' ~ product.image) }}" alt='' onerror="this.src='{{ product.image }}'" >
+                                    <div class="card-body">
+                                        <h5 class="card-title product-description">{{ product.getName() }}</h5>
+                                        <p class="card-text product-description">{{ product.getDescription()|raw }}</p>
+                                        <label>{{ product.getPrice() }} $</label>
+                                    </div>
+                                </a>
                             </div>
-                        </button>
-                    </form>
+
+                        </div>
+                    {% endfor %}
+
+
                 </div>
-            {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}

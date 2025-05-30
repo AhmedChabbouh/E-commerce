@@ -28,7 +28,7 @@ security:
                 default_target_path: app_home
             logout:
                 path: app_logout
-                target: /login
+                target: /home
             oauth:
                 resource_owners:
                     facebook: "/login/check-facebook"

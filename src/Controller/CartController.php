@@ -20,6 +20,9 @@ final class CartController extends AbstractController
     public function showCart(ManagerRegistry $doctrine)
     {
         $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('app_login');
+        }
         $entityManager = $doctrine->getManager();
         $cart=$doctrine->getRepository(Cart::class)->findOneBy(['user' => $user->getId()]);
         if(!$cart) {
@@ -61,6 +64,9 @@ final class CartController extends AbstractController
     public function addToCart(ManagerRegistry $doctrine, int $id)
     {
         $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('app_login');
+        }
         $entityManager = $doctrine->getManager();
         $product = $doctrine->getRepository(Product::class)->find($id);
         if (!$product) {

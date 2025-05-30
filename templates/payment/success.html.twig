@@ -2,13 +2,84 @@
 
 {% block title %}Payment Success{% endblock %}
 
-{% block body %}
+{% block stylesheets %}
     {{ parent() }}
-    <h1>Thanks for your order!</h1>
-    <p>
-        We appreciate your business!
-        transaction done successfully
-        If you have any questions, please email
-        <a href="mailto:orders@example.com">orders@example.com</a>.
-    </p>
+    <style>
+        body {
+            background-color: #f8f8f0; /* Creamy white */
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            padding: 20px;
+        }
+
+        .success-message {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            color: #5a8f5a; /* Muted light green */
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 25px;
+            color: #555;
+        }
+
+        .check-icon {
+            color: #5a8f5a;
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .email-link {
+            color: #5a8f5a;
+            font-weight: 500;
+        }
+
+        .home-btn {
+            display: inline-block;
+            background: #5a8f5a;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .home-btn:hover {
+            background: #4a7a4a;
+        }
+    </style>
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+{% block footer %}
+{% endblock %}
+{% block body %}
+    <div class="success-message">
+        <span class="check-icon">✓</span>
+        <h1>Thank you for your order!</h1>
+        <p>
+            Your payment was successful.<br>
+            We appreciate your business.
+        </p>
+        <p>
+            For any questions, please contact us at<br>
+            <a href="mailto:symfonyecommerce34@gmail.com" class="email-link">symfonyecommerce34@gmail.com</a>
+        </p>
+        <a href="{{ path('app_home') }}" class="home-btn">Return to Homepage</a>
+    </div>
 {% endblock %}

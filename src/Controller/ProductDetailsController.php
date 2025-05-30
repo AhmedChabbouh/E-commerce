@@ -13,17 +13,21 @@ use App\Entity\Product;
 final class ProductDetailsController extends AbstractController
 {
     #[Route('/product/details/{productId}', name: 'app_product_details')]
-    public function index(ManagerRegistry $doctrine, int $productId): Response
+
+    public function index(ManagerRegistry $doctrine, String $productId): Response
     {   $entityManager = $doctrine->getManager();
         $repo = $doctrine->getRepository(Product::class);
+          $repo2 = $doctrine->getRepository(AnimalProduct::class);
+          $product = $repo->find($productId);
 
-
-
-
-
-
+  if ($product instanceof AnimalProduct){
+      $type="animal";
+    }
+  else{
+      $type="product";
+    }
         return $this->render('product_details/index.html.twig', [
-            'controller_name' => 'ProductDetailsController',
+            'type' => $type,'product' => $product,
         ]);
     }
 }

@@ -29,6 +29,9 @@ class Address
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $addressSpecifique = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +93,18 @@ class Address
     public function setPhoneNumber(string $phoneNumber): static
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getAddressSpecifique(): ?string
+    {
+        return $this->addressSpecifique;
+    }
+
+    public function setAddressSpecifique(string $addressSpecifique): static
+    {
+        $this->addressSpecifique = $addressSpecifique;
 
         return $this;
     }
