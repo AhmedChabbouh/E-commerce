@@ -28,6 +28,8 @@
         {% if app.user %}
             <script>
                 {% set urls = [] %}
+                {% set wishlist = app.user.wishlist %}
+                {% if wishlist != null %}
                 {% for product in wishlist.products %}
                 {% set urls = urls|merge(['http://localhost:8000/product/' ~ product.id]) %}
                 {% endfor %}
@@ -35,6 +37,7 @@
                 eventSource.onmessage = event =>{
                     console.log(event.data);
                 }
+                {% endif %}
             </script>
         {% endif %}
     </head>
