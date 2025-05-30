@@ -2,9 +2,16 @@
 {% block title %}Product list{% endblock %}
 {% block body %}
     <div class="container" style="margin-top:50px;">
-        <div class="row" id="productContainer">
+        <div class="row" id="productContainer" style="display: flex; flex-wrap: wrap; gap: 20px;">
             {% for product in products %}
-                <div class="col-3 product-item">
+                <div class="product-item" style="position: relative; flex: 0 0 calc(25% - 20px);">
+                    <form method="POST" action="{{ path('app_wish_listapp_wishlist_add', {id: product.getId()}) }}"
+                          style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                        <button type="submit" class="wishlist-btn" style="border: none; background: white; border-radius: 50%; width: 36px; height: 36px; padding: 0; cursor: pointer;">
+                            ♥
+                        </button>
+                    </form>
+
                     <form method="POST" action="{{ path('app_cartadd_to_cart', {id: product.getId()}) }}">
                         <button type="submit" style="border:none;background-color: transparent; width: 100%; padding: 0;">
                             <div class="card h-100">
@@ -35,8 +42,7 @@
                 const searchTerm = searchInput.value.trim().toLowerCase();
 
                 productItems.forEach(item => {
-                    const button = item.querySelector('button[type="submit"]');
-                    const productName = button.querySelector('.card-title').textContent.toLowerCase();
+                    const productName = item.querySelector('.card-title').textContent.toLowerCase();
                     if (searchTerm === '' || productName.startsWith(searchTerm)) {
                         item.style.display = 'block';
                     }

@@ -48,6 +48,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Address::class, mappedBy: 'user')]
     private Collection $addresses;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Wishlist $wishlist = null;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
@@ -181,6 +184,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $address->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWishlist(): ?Wishlist
+    {
+        return $this->wishlist;
+    }
+
+    public function setWishlist(Wishlist $wishlist): static
+    {
+        // set the owning side of the relation if necessary
+        if ($wishlist->getUser() !== $this) {
+            $wishlist->setUser($this);
+        }
+
+        $this->wishlist = $wishlist;
 
         return $this;
     }
