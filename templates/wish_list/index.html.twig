@@ -1,7 +1,22 @@
 {% extends 'base.html.twig' %}
-{% block title %}Your Cart{% endblock %}
+{% block title %}Your Wishlist{% endblock %}
 {% block stylesheets %}
-
+    <style>
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin: 0 5px;
+            padding: 0;
+        }
+        .action-icon {
+            width: 24px;
+            height: 24px;
+        }
+        .details-btn:hover {
+            opacity: 0.8;
+        }
+    </style>
 {% endblock %}
 {% block body %}
 
@@ -13,6 +28,7 @@
 
                 <th colspan="2" style="padding-left: 25em;" scope="col">Product </th>
                 <th scope="col">Price</th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody class="table-group">
@@ -23,7 +39,16 @@
                             <h5 class="card-title" > {{ product.getName()}} </h5>
                             <p class="card-text"> {{ product.getDescription()}} </p></td>
                         <td style="padding-top: 100px" class="price"> <label> {{ product.getPrice()}} $</label></td>
+                        <td style="padding-top: 100px">
+                            <a href="{{ path('app_product_details', {'productId': product.getId()}) }}"
+                               class="action-btn details-btn"
+                               title="View Details">
+                                <img src="{{ asset('images/info.jpg') }}"
+                                     alt="View Details"
+                                     class="action-icon">
+                            </a>
 
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
