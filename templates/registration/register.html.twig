@@ -3,23 +3,37 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+    <div style="background: linear-gradient(to bottom, #f6f3f1, #ffffff); min-height: 100vh; padding: 2rem;">
+        <div style="max-width: 500px; margin: 0 auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <h1 style="color: #000000; text-align: center; margin-bottom: 1.5rem;">Register</h1>
 
-    <h1>Register</h1>
+            {% for flash_error in app.flashes('verify_email_error') %}
+                <div style="color: #dc3545; background: #f8d7da; padding: 0.75rem; border-radius: 4px; margin-bottom: 1rem;">
+                    {{ flash_error }}
+                </div>
+            {% endfor %}
 
-    {{ form_errors(registrationForm) }}
+            {{ form_start(registrationForm) }}
+            <div style="margin-bottom: 1rem;">
+                {{ form_row(registrationForm.email, {
+                    'attr': {'style': 'width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;'}
+                }) }}
+            </div>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-    <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}">
-        <span>Register with Google</span>
-    </a>
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            <div style="margin-bottom: 1rem;">
+                {{ form_row(registrationForm.plainPassword, {
+                    'label': 'Password',
+                    'attr': {'style': 'width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;'}
+                }) }}
+            </div>
+            <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}">
+                <span>Register with Google</span>
+            </a>
+            <button type="submit"
+                    style="background: #2e7d32; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; width: 100%; font-size: 1rem;">
+                Register
+            </button>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
 {% endblock %}

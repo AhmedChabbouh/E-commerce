@@ -11,11 +11,14 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
+        bind:
+            $stripeSK: "%env(STRIPE_SK)%"
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
+        autowire: true      # Activate autowiring
+        autoconfigure: true
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
@@ -27,5 +30,7 @@ services:
             $properties:
                 'facebook': 'facebook'
                 'google': 'google'
+    App\Service\MailerService:
+        public: true
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

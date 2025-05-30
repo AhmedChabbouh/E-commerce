@@ -1,31 +1,122 @@
 {% extends 'base.html.twig' %}
 {% block title %}Your Cart{% endblock %}
+{% block stylesheets %}
+
+{% endblock %}
 {% block body %}
 
     <div class="container " style="margin-top:50px;">
-        <div class="d-flex flex-row mb-3">
 
-            {% for product in products %}
-                <div class="p-2">
-                    <div class="card" id="{{ product.getId() }}" style="height:20em;margin-bottom:25px">
-                <div class="d-flex flex-row mb-3">
-                    <div class="p-2">
-                        <img  style="width:18em;" src= {% block image %} {{ product.getImage()}} {% endblock %}>
-                    </div>
-                    <div class="p-2">
-                            <h5 class="card-title">{% block name %} {{ product.getName()}} {% endblock %}</h5>
-                            <p class="card-text">{% block description %} {{ product.getDescription()}} {% endblock %}</p>
-                        </div>
-                    <div class="p-2">
-                            <label>{% block price %} {{ product.getPrice()}} {% endblock %}$</label><br><br>
+        <table class="table">
+            <thead>
+            <tr>
 
-                        </div>
-                    </div>
-                    </div>
-                </div>
+                <th colspan="2" style="padding-left: 25em;" scope="col">Product </th>
+                <th scope="col">Price</th>
+                <th scope="col" style="padding-left: 1.5em;">Quantity</th>
+            </tr>
+            </thead>
+            <tbody class="table-group">
+
+                {% for product in products %}
+                    <tr id="{{ product.getId() }}" class="product-id">
+                <td><img  class="image" style="width:18em; height:16em;" src= {{ product.getImage()}} ></td>
+                <td style="padding-top: 100px">
+                    {% if not isAnimal[product.getId()] and product.getStockQuantity()<10  %}
+                    <p style="color: red; font-weight: bold;">
+                        Only {{ product.getStockQuantity() }} left in stock!
+                    </p>
+                    {% endif %}
+                    <h5 class="card-title" > {{ product.getName()}} </h5>
+                    <p class="card-text"> {{ product.getDescription()}} </p></td>
+                <td style="padding-top: 100px" class="price"> <label> {{ product.getPrice()}} $</label></td>
+
+                <td style="padding-top: 100px;"><input style="width:100px;"  class="quantity form-control text-center" type="number" min="0" max="{{ isAnimal[product.getId()] ? 1: product.getStockQuantity()}}" value="{{ quantity[product.getId()] }}"></td>
+
+
+
+            </tr>
+
             {% endfor %}
+                <td colspan="2" style="text-align: end;"><h5 style="margin-top:5px;">Total Price :</h5></td>
+            <td ><label style="margin-top:6px;" id="total-price"></label></td>
+            <td><a href={{ path('checkout', {'cartId': cart_id}) }} id="confirm" class="btn btn-outline-secondary">Confirm Purchase</a></td>
+            </tbody>
+        </table>
+
 
         </div>
-    </div>
 
 {% endblock %}
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const quantities = document.querySelectorAll('.quantity');
+            const prices = Array.from(document.querySelectorAll('.price'));
+            const totalPrice = document.getElementById('total-price');
+            const images = Array.from(document.querySelectorAll('.image'));
+            const names = Array.from(document.querySelectorAll('.card-title'));
+            const ids = Array.from(document.querySelectorAll('.product-id'));
+
+
+            function updateTotal() {
+                let total = 0;
+                quantities.forEach((quantityInput, index) => {
+                    const quantity = parseInt(quantityInput.value) || 0;
+                    const priceText = prices[index].textContent.trim().replace('$', '');
+                    const price = parseFloat(priceText);
+                    total += quantity * price;
+                });
+                totalPrice.textContent = total.toFixed(2) + ' $';
+            }
+
+            quantities.forEach((quantityInput, index) => {
+                quantityInput.addEventListener('change', () => {
+                    if(quantityInput.value == 0){
+                        Swal.fire({
+                            html: images[index].cloneNode().outerHTML,
+                            title: `Do you want to remove ${names[index].textContent} from your cart?`,
+                            showCancelButton: true,
+                            confirmButtonText: 'Yes',
+                            cancelButtonText: 'No',
+                        }).then((result) => {
+                            if(result.isConfirmed){
+                                const productId = ids[index].id;
+                                fetch(`/cart/remove/${productId}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    }
+                                }).then(() => {
+                                    ids[index].remove();
+                                    updateTotal();
+                                });
+                            } else {
+                                quantityInput.value = 1;
+                                updateTotal();
+                            }
+                        });
+                    } else {
+                        const productId = ids[index].id;
+                        fetch(`/cart/changeQuantity/${productId}/${quantityInput.value}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            }
+                        });
+                    }
+                    updateTotal();
+                });
+            });
+
+            updateTotal();
+        });
+
+
+    </script>
+
+{% endblock %}
+
