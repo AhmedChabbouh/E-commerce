@@ -84,6 +84,7 @@ class myEntityUserProvider implements UserProviderInterface, OAuthAwareUserProvi
             }
             $user->setRoles(['ROLE_USER']);
             $user->setPassword('');
+            $user->setIsVerified(true);
             $this->em->persist($user);
             $this->em->flush();
         }
