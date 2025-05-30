@@ -35,7 +35,8 @@
                 {% endfor %}
                 const eventSource = new EventSource("{{mercure(urls)|escape('js') }}");
                 eventSource.onmessage = event =>{
-                    console.log(event.data);
+                    // TODO: handle event
+                    alert(event.data);
                 }
                 {% endif %}
             </script>

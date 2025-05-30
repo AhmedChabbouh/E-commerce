@@ -15,10 +15,11 @@
                     <form method="POST" action="{{ path('app_cartadd_to_cart', {id: product.getId()}) }}">
                         <button type="submit" style="border:none;background-color: transparent; width: 100%; padding: 0;">
                             <div class="card h-100">
-                                <img class="card-img-top" style="height:350px; object-fit: cover;" src="{{ product.getImage() }}">
+{#                                image either saved in /uploads/images or url#}
+                                <img class="card-img-top" style="height:350px; object-fit: cover;" src="{{  asset('uploads/images/' ~ product.image) }}" alt='' onerror="this.src='{{ product.image }}'" >
                                 <div class="card-body">
                                     <h5 class="card-title product-name">{{ product.getName() }}</h5>
-                                    <p class="card-text product-description">{{ product.getDescription() }}</p>
+                                    <p class="card-text product-description">{{ product.getDescription()|raw }}</p>
                                     <p>{{ product.getPrice() }} $</p>
                                 </div>
                             </div>

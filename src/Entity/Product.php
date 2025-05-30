@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\EventListener\ProductListener;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -14,7 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
     "product" => Product::class,
     "animal" => AnimalProduct::class,
 ])]
-
 
 
 class Product
@@ -51,6 +51,9 @@ class Product
      */
     #[ORM\ManyToMany(targetEntity: Wishlist::class, mappedBy: 'products')]
     private Collection $wishlists;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $sale = null;
 
 
 
@@ -165,6 +168,18 @@ public function removeWishlist(Wishlist $wishlist): static
     if ($this->wishlists->removeElement($wishlist)) {
         $wishlist->removeProduct($this);
     }
+
+    return $this;
+}
+
+public function getSale(): ?float
+{
+    return $this->sale;
+}
+
+public function setSale(?float $sale): static
+{
+    $this->sale = $sale;
 
     return $this;
 }
