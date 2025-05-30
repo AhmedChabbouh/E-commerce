@@ -5,25 +5,27 @@
 {% block stylesheets %}
     <style>
         body {
-            background: linear-gradient(135deg, #e8f5e9 0%, #fff8e1 100%);
-            min-height: 100vh;
+            background-color: #f5f5f0; /* Whity cream background */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .form-container {
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 2rem;
             margin: 2rem auto;
             max-width: 600px;
         }
 
         h1 {
-            color: #000;
+            color: #333;
             text-align: center;
             margin-bottom: 1.5rem;
             font-weight: 600;
+            font-size: 1.8rem;
         }
 
         .form-group {
@@ -31,61 +33,89 @@
         }
 
         .form-control {
-            border: 1px solid #c8e6c9;
-            border-radius: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             padding: 0.75rem;
+            width: 100%;
+            font-size: 1rem;
         }
 
         .form-control:focus {
-            border-color: #81c784;
-            box-shadow: 0 0 0 0.2rem rgba(129, 199, 132, 0.25);
+            border-color: #4a7a4a;
+            box-shadow: 0 0 0 0.2rem rgba(74, 122, 74, 0.25);
         }
 
         label {
-            color: #33691e;
+            color: #555;
             font-weight: 500;
             margin-bottom: 0.5rem;
             display: block;
+            font-size: 1rem;
         }
 
         .btn-primary {
-            background-color: #43a047;
-            border-color: #43a047;
-            padding: 0.5rem 1.5rem;
+            background-color: white;
+            color: #4a7a4a;
+            border: 1px solid #4a7a4a;
+            padding: 12px;
             font-weight: 500;
             width: 100%;
             margin-top: 1rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s;
         }
 
         .btn-primary:hover {
-            background-color: #2e7d32;
-            border-color: #2e7d32;
+            background-color: #4a7a4a;
+            color: white;
         }
 
         .btn-secondary {
-            background-color: transparent;
-            color: #43a047;
-            border: 1px solid #43a047;
-            padding: 0.5rem 1.5rem;
+            background-color: white;
+            color: #4a7a4a;
+            border: 1px solid #4a7a4a;
+            padding: 12px;
             font-weight: 500;
             width: 100%;
+            margin-top: 1rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s;
         }
 
         .btn-secondary:hover {
-            background-color: #43a047;
-            color: #fff;
+            background-color: #4a7a4a;
+            color: white;
         }
 
-        .flash-message {
-            padding: 1rem;
+        .cart-summary {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .cart-summary h2 {
+            color: #333;
+            font-size: 1.3rem;
             margin-bottom: 1rem;
-            border-radius: 5px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
         }
 
-        .alert-success {
-            background-color: #c8e6c9;
-            color: #1b5e20;
-            border: 1px solid #a5d6a7;
+        .total-price {
+            font-weight: bold;
+            color: #4a7a4a;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            text-align: right;
         }
     </style>
 {% endblock %}
@@ -93,8 +123,7 @@
 {% block body %}
     <div class="container">
         <div class="form-container">
-            <h1>{% if address.id is defined %}Edit{% else %}Remplir{% endif %} infos de livraison</h1>
-
+            <h1>{% if address.id is defined %}Edit{% else %}Fill the{% endif %} Shipping infos</h1>
 
 
             {{ form_start(form, {'attr': {'class': 'address-form'}}) }}
@@ -123,16 +152,14 @@
                 {{ form_label(form.phoneNumber) }}
                 {{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control'}}) }}
             </div>
-            <button type="submit" class="btn btn-secondary mt-3" onclick="{{ path('checkout', {'cartId': cartId})  }}">Pay with Stripe!</button>
 
+            <button type="submit" class="btn btn-primary">Pay with Stripe</button>
 
-            
-                {{ form_end(form) }}
+            {{ form_end(form) }}
 
-                <a href="{{ path('app_cartshow_cart') }}" class="btn btn-secondary  mt-3">
-                    Back to your cart
-                </a>
-
+            <a href="{{ path('app_cartshow_cart') }}" class="btn btn-secondary">
+                Back to Cart
+            </a>
         </div>
     </div>
 {% endblock %}
