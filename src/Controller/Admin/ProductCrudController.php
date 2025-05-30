@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -42,7 +43,7 @@ class ProductCrudController extends AbstractCrudController
 
             TextField::new('name'),
             TextEditorField::new('description'),
-            TextField::new('price'),
+            MoneyField::new('price')->setCurrency('USD'),
             NumberField::new('sale'),
             $imageField,
                 //TODO: change the filename format

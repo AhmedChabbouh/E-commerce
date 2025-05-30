@@ -72,16 +72,19 @@ class myEntityUserProvider implements UserProviderInterface, OAuthAwareUserProvi
             throw new RuntimeException(\sprintf("No property defined for entity for resource owner '%s'.", $resourceOwnerName));
         }
 
-        $username = method_exists($response, 'getUserIdentifier') ? $response->getUserIdentifier() : $response->getUsername();
-        if (null === $user = $this->findUser([$this->properties[$resourceOwnerName] => $username])) {
+        $identifier = method_exists($response, 'getUserIdentifier') ? $response->getUserIdentifier() : $response->getUsername();
+        if (null === $user = $this->findUser([$this->properties[$resourceOwnerName] => $identifier])) {
             $user = new User();
             $user->setEmail($email);
             if ($resourceOwnerName === "google"){
-                $user->setGoogle($username);
+                $user->setGoogle($identifier);
             }
             if ($resourceOwnerName === "facebook"){
-                $user->setFacebook($username);
+                $user->setFacebook($identifier);
             }
+            $user->setFirstName($response->getFirstName());
+            $user->setLastName($response->getLastName());
+            $user->setAvatar($response->getProfilePicture());
             $user->setRoles(['ROLE_USER']);
             $user->setPassword('');
             $user->setIsVerified(true);
