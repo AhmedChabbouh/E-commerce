@@ -33,6 +33,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+    public function findByWishlistedProduct(int $productId): array
+    {
+        return $this->createQueryBuilder('u')
+            ->join('u.wishlist', 'w')
+            ->where(' :productId MEMBER OF w.products')
+            ->setParameter('productId', $productId)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */
