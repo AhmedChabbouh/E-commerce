@@ -13,6 +13,7 @@ use App\Entity\Product;
 final class ProductDetailsController extends AbstractController
 {
     #[Route('/product/details/{productId}', name: 'app_product_details')]
+
     public function index(ManagerRegistry $doctrine, String $productId): Response
     {   $entityManager = $doctrine->getManager();
         $repo = $doctrine->getRepository(Product::class);

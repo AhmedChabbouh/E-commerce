@@ -208,12 +208,15 @@
                 <div class="col-3 "style="display:flex; align-items: stretch;">
 
                     <div class="card" id="{{ product.getId() }}" style="width: 18rem;height:auto;margin-bottom:25px;background-color:#f6f3f1;">
-                        <a href="{{ path('app_product_details', {'productId' : product.id }) }}">     <img class="card-img-top " style="height:350px;" src= {% block image %} {{ product.getImage()}} {% endblock %}>   </a>
-                        <div class="card-body">
-                            <h5 class="card-title">{% block name %} {{ product.getName()}} {% endblock %}</h5>
 
-                            <p class="card-text">{% block description %} {{ product.getDescription()}} {% endblock %}</p>
-                            <label>{% block price %} {{ product.getPrice()}} {% endblock %}$</label><br><br>
+                        <a href="{{ path('app_product_details', {'productId' : product.id }) }}">     <img class="card-img-top " style="height:350px;" src= {% block image %} {{ product.getImage()}} {% endblock %}>   </a>
+                    
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.getName()}} </h5>
+
+                            <p class="card-text"> {{ product.getDescription()}} </p>
+                            <label> {{ product.getPrice()}} $</label><br><br>
 
                         </div>
                     </div>

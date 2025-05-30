@@ -23,17 +23,29 @@
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link " href="{{ path('app_home') }}">Home</a></li>
+
                 <li class="nav-item"><a class="nav-link" href="{{ path('app_about_us') }}">About us</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">S'incrire</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Se connecter</a></li>
+
+                <li class="nav-item"><a class="nav-link" href="#">About us</a></li>
+                {% if app.user %}
+                    <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Logout</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Login</a></li>
+                {% endif %}
+
+
+
             </ul>
 
 
             <div class="d-flex align-items-center">
 
-                <form class="d-none d-lg-block me-3">
+                <form class="d-none d-lg-block me-3" id="navbarSearchForm">
                     <div class="input-group">
-                        <input type="text" class="form-control form-control-sm" placeholder="Search...">
+                        <input type="text" class="form-control form-control-sm" id="navbarSearchInput" placeholder="Search...">
                         <button class="btn btn-outline-secondary btn-sm" type="submit">
                             <i class="bi bi-search"></i>
                         </button>

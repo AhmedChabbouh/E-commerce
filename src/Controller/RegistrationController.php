@@ -53,15 +53,15 @@ class RegistrationController extends AbstractController
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('website@noreply.com', 'E-Commerce No-Reply'))
+                    ->from(new Address('symfonyecommerce34@gmail.com', 'E-Commerce No-Reply'))
                     ->to((string) $user->getEmail())
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
             // do anything else you need here, like send an email
-            $security->login($user);
-            return $this->redirectToRoute('app_productproduct_list');
+            $security->login($user,"form_login");
+            return $this->redirectToRoute('app_home' );
         }
 
         return $this->render('registration/register.html.twig', [

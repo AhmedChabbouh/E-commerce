@@ -10,20 +10,28 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\AnimalProduct;
 use App\Entity\Category;
 
-#[Route('/product', name: 'app_product')]
+#[Route( '/product', name: 'app_product')]
 final class ProductController extends AbstractController
 {
+
     #[Route('/list/{categoryName}', name: 'product_list')]
     public function show_products(ManagerRegistry $doctrine,String  $categoryName): Response
     {   $entityManager = $doctrine->getManager();
         $category=$entityManager->getRepository(Category::class)->findOneBy(['name'=>$categoryName]);
 
+
         $repo = $doctrine->getRepository(Product::class);
         $products = $repo->findBy(['category'=>$category]);
+        foreach ($products as $product) {
+            if ($product->getStockQuantity()==0) {
+                $products.remove($product);
+            }
+        }
         return $this->render('product/list.html.twig', [
             'products' =>$products
         ]);
     }
+
     #[Route('/addAnimal', name: 'product_add')]
 public function add_product(ManagerRegistry $doctrine):Response{
         $entityManager = $doctrine->getManager();

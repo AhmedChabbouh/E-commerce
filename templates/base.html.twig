@@ -25,6 +25,21 @@
         {% block javascripts %}
 
         {% endblock %}
+        {% if app.user %}
+            <script>
+                {% set urls = [] %}
+                {% set wishlist = app.user.wishlist %}
+                {% if wishlist != null %}
+                {% for product in wishlist.products %}
+                {% set urls = urls|merge(['http://localhost:8000/product/' ~ product.id]) %}
+                {% endfor %}
+                const eventSource = new EventSource("{{mercure(urls)|escape('js') }}");
+                eventSource.onmessage = event =>{
+                    console.log(event.data);
+                }
+                {% endif %}
+            </script>
+        {% endif %}
     </head>
     <body >
      {% include 'navbar.html.twig' %}

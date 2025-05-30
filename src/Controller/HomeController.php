@@ -24,7 +24,7 @@ final class HomeController extends AbstractController
         // Get all categories
 
         $products = $productRepository->findAll();
-        for ($i=0 ;$i<16; $i++) {
+        for ($i=0 ;$i<11; $i++) {
             $selectedProducts[] = $products[$i];
     }
 
