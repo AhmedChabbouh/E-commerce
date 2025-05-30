@@ -13,10 +13,12 @@ use App\Entity\Category;
 #[Route('/product', name: 'app_product')]
 final class ProductController extends AbstractController
 {
+
     #[Route('/list/{categoryName}', name: 'product_list')]
     public function show_products(ManagerRegistry $doctrine,String  $categoryName): Response
     {   $entityManager = $doctrine->getManager();
         $category=$entityManager->getRepository(Category::class)->findOneBy(['name'=>$categoryName]);
+
 
         $repo = $doctrine->getRepository(Product::class);
         $products = $repo->findBy(['category'=>$category]);

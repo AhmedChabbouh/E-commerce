@@ -37,6 +37,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $google = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $facebook = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -118,6 +124,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getGoogle(): ?string
+    {
+        return $this->google;
+    }
+
+    public function setGoogle(?string $google): static
+    {
+        $this->google = $google;
+
+        return $this;
+    }
+
+    public function getFacebook(): ?string
+    {
+        return $this->facebook;
+    }
+
+    public function setFacebook(?string $facebook): static
+    {
+        $this->facebook = $facebook;
 
         return $this;
     }
