@@ -198,16 +198,23 @@
 
             {% for product in products %}
                 <div class="col-3 "style="display:flex; align-items: stretch;">
-                    <div class="card" id="{{ product.getId() }}" style="width: 18rem;height:auto;margin-bottom:25px;background-color:#f6f3f1;">
-                        <img class="card-img-top " style="height:350px;" src=  {{ product.getImage()}} >
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product.getName()}} </h5>
+                    <form method="POST" action="{{ path('app_cartadd_to_cart', {id: product.getId()}) }}">
+                        <button id="{{ product.getId() }}" style="border:none;background-color: transparent">
+                            <div class="card" id="{{ product.getId() }}" style="width: 18rem;height:auto;margin-bottom:25px">
+                                <img class="card-img-top " style="height:350px;" src=  {{ product.getImage()}} >
+                                <div class="card-body">
+                                    <h5 class="card-title"> {{ product.getName()}} </h5>
 
-                            <p class="card-text"> {{ product.getDescription()}} </p>
-                            <label> {{ product.getPrice()}} $</label><br><br>
+                                    <p class="card-text"> {{ product.getDescription()}} </p>
+                                    <label> {{ product.getPrice()}} $</label><br><br>
 
-                        </div>
-                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </button>
+                    </form>
                 </div>
             {% endfor %}
 

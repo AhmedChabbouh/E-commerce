@@ -10,7 +10,38 @@
 
         {% block stylesheets %}
             <style>
-                .navbar-nav .nav-link.active {
+
+                .category-link:hover {
+                    color: #198754; /* Bootstrap green */
+                    font-weight: 500;
+                    padding-left: 5px;
+                    transition: all 0.3s ease;
+                }
+                .card {
+                    border: none;
+                    transition: transform 0.2s;
+                }
+                .card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+                }
+
+                .btn-success {
+                    background-color: #198754; /* Bootstrap green */
+                    border-color: #198754;
+                }
+
+                .btn-success:hover {
+                    background-color: #146c43;
+                    border-color: #146c43;
+                }
+
+                .card-title, .card-text {
+                    color: #000;
+                }
+            
+
+            .navbar-nav .nav-link.active {
                     font-weight: bold;
                     color: black !important;
                 }
@@ -27,7 +58,9 @@
         {% endblock %}
     </head>
     <body >
+    {% block navbar %}
      {% include 'navbar.html.twig' %}
+    {% endblock %}
         {% block body %}
 
         {% endblock %}

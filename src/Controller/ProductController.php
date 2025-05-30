@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\Wishlist;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,8 +26,16 @@ final class ProductController extends AbstractController
                 $products.remove($product);
             }
         }
+        $wishList = $doctrine->getRepository(Wishlist::class)->findOneBy(['user' => $this->getUser()]);
+        $wishListProducts = $wishList ? $wishList->getProducts()->toArray() : [];
+        $wishlistProductIds = array_map(function($product) {
+            return $product->getId();
+        }, $wishListProducts);
+        $categories = $doctrine->getRepository(Category::class)->findAll();
         return $this->render('product/list.html.twig', [
-            'products' =>$products
+            'products' =>$products,
+            'categories' => $categories,
+            'wishlistProductIds' => $wishlistProductIds
         ]);
     }
 

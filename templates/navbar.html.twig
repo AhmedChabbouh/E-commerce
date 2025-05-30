@@ -48,8 +48,12 @@
 
 
                 <div class="navbar-icons d-flex align-items-center">
-                   <i class="bi bi-person" title="User"></i>
-                    <a href="#"> <i class="bi bi-bag" title="Cart"></i></a>
+
+                   <i style="margin-left: 5px;margin-right:10px" class="bi bi-person" title="User"></i>
+                    <a href="{{ path('app_wish_listapp_wish_list_show') }}" class="me-3" title="Wishlist">
+                        <i class="bi bi-heart"></i>
+                    </a>
+                    <a href="{{ path('app_cartshow_cart') }}"> <i class="bi bi-bag" title="Cart"></i></a>
                 </div>
             </div>
         </div>
