@@ -93,7 +93,14 @@
       margin-top:50px;
       backrouground-color:#f6f3f1;
   }
+     .card {
+         transition: transform 0.3s ease, box-shadow 0.3s ease;
+     }
 
+     .card:hover {
+         transform: scale(1.05);
+         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Optionnel pour un effet d'élévation */
+     }
 .monji{
     font-family: 'Comic Neue', cursive;
     font-weight:500;
@@ -117,7 +124,7 @@
        <h3 class="intro">
            3ASSLEMA A DHAY3ET MA7ROUS! ACHETEZ LES MEILLEURS ANIMAUX ICI !
        </h3>
-       <button id="intro" class="btn btn-success">learn more about us</button>
+       <a href="{{ path('app_about_us') }}">    <button id="intro" class="btn btn-success">learn more about us</button></a>
    </div>
         <div class="col"></div>
     </div>
@@ -197,25 +204,24 @@
         <div class="row" id="products">
 
             {% for product in products %}
+
                 <div class="col-3 "style="display:flex; align-items: stretch;">
-                    <form method="POST" action="{{ path('app_cartadd_to_cart', {id: product.getId()}) }}">
-                        <button id="{{ product.getId() }}" style="border:none;background-color: transparent">
-                            <div class="card" id="{{ product.getId() }}" style="width: 18rem;height:auto;margin-bottom:25px">
-                                <img class="card-img-top " style="height:350px;" src=  {{ product.getImage()}} >
-                                <div class="card-body">
-                                    <h5 class="card-title"> {{ product.getName()}} </h5>
 
-                                    <p class="card-text"> {{ product.getDescription()}} </p>
-                                    <label> {{ product.getPrice()}} $</label><br><br>
+                    <div class="card" id="{{ product.getId() }}" style="width: 18rem;height:auto;margin-bottom:25px;background-color:#f6f3f1;">
 
+                        <a href="{{ path('app_product_details', {'productId' : product.id }) }}">     <img class="card-img-top " style="height:350px;" src= {% block image %} {{ product.getImage()}} {% endblock %}>   </a>
+                    
 
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.getName()}} </h5>
 
+                            <p class="card-text"> {{ product.getDescription()}} </p>
+                            <label> {{ product.getPrice()}} $</label><br><br>
 
-                                </div>
-                            </div>
-                        </button>
-                    </form>
+                        </div>
+                    </div>
                 </div>
+
             {% endfor %}
 
         </div>
