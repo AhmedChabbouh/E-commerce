@@ -53,7 +53,7 @@ class Product
     private Collection $wishlists;
 
     #[ORM\Column(nullable: true)]
-    private ?float $sale = null;
+    private ?int $sale = null;
 
 
 
@@ -172,12 +172,12 @@ public function removeWishlist(Wishlist $wishlist): static
     return $this;
 }
 
-public function getSale(): ?float
+public function getSale(): ?int
 {
     return $this->sale;
 }
 
-public function setSale(?float $sale): static
+public function setSale(?int $sale): static
 {
     $this->sale = $sale;
 
