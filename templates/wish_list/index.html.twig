@@ -1,7 +1,41 @@
 {% extends 'base.html.twig' %}
 {% block title %}Your Wishlist{% endblock %}
+
 {% block stylesheets %}
     <style>
+
+
+        .wishlist-container {
+            margin-top: 50px;
+        }
+
+        .wishlist-table {
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .wishlist-table thead th {
+            background-color: #716969;
+            color: #ffffff;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .wishlist-table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .product-image {
+            width: 230px;
+            height: 230px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 10px;
+        }
+
         .action-btn {
             background: none;
             border: none;
@@ -16,30 +50,54 @@
         .details-btn:hover {
             opacity: 0.8;
         }
+
+        
+
+        @media (max-width: 768px) {
+            .wishlist-table thead {
+                display: none;
+            }
+
+            .wishlist-table tbody td {
+                display: block;
+                width: 100%;
+                text-align: left;
+                padding: 1rem;
+                border-bottom: 1px solid #333;
+            }
+
+            .wishlist-table tbody td:last-child {
+                border-bottom: none;
+            }
+        }
     </style>
 {% endblock %}
+
 {% block body %}
+    <div class="container wishlist-container">
+        <h2 class="mb-4 text-center ">Your Wishlist</h2>
 
-    <div class="container " style="margin-top:50px;">
-
-        <table class="table">
-            <thead>
-            <tr>
-
-                <th colspan="2" style="padding-left: 25em;" scope="col">Product </th>
-                <th scope="col">Price</th>
-                <th scope="col">Action</th>
-            </tr>
-            </thead>
-            <tbody class="table-group">
+        <div class="table-responsive">
+            <table class="table wishlist-table">
+                <thead>
+                <tr>
+                    <th colspan="2">Product</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
                 {% for product in products %}
                     <tr id="{{ product.getId() }}" class="product-id">
-                        <td><img  class="image" style="width:18em; height:16em;" src= {{ product.getImage()}} ></td>
-                        <td style="padding-top: 100px">
-                            <h5 class="card-title" > {{ product.getName()}} </h5>
-                            <p class="card-text"> {{ product.getDescription()}} </p></td>
-                        <td style="padding-top: 100px" class="price"> <label> {{ product.getPrice()}} $</label></td>
-                        <td style="padding-top: 100px">
+                        <td>
+                            <img class="product-image" src="{{ product.getImage() }}" alt="{{ product.getName() }}">
+                        </td>
+                        <td>
+                            <h5>{{ product.getName() }}</h5>
+                            <p>{{ product.getDescription() }}</p>
+                        </td>
+                        <td class="price">{{ product.getPrice() }} $</td>
+                        <td>
                             <a href="{{ path('app_product_details', {'productId': product.getId()}) }}"
                                class="action-btn details-btn"
                                title="View Details">
@@ -47,11 +105,18 @@
                                      alt="View Details"
                                      class="action-icon">
                             </a>
-
+                            <form action="{{ path('app_wish_listapp_wishlist_add', {id: product.getId()}) }}" method="post" style="display: inline;">
+                                <button class="action-btn remove-btn" title="Remove from Wishlist">
+                                    <img src="{{ asset('images/img.png') }}"
+                                         alt="delete from wishlist"
+                                         class="action-icon">
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 {% endfor %}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}

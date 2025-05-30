@@ -76,8 +76,17 @@ final class PaymentController extends AbstractController
     }
 
     #[Route('/success-url', name: 'success_url')]
-    public function successUrl(): Response
+    public function successUrl(EntityManagerInterface $em): Response
     {
+        $user = $this->getUser();
+        $cart = $em->getRepository(Cart::class)->findOneBy(['user' => $user]);
+        $cartItems = $em->getRepository(CartItem::class)->findBy(['cart' => $cart]);
+        foreach ($cartItems as $cartItem) {
+            $product = $cartItem->getProduct();
+            $product->setStockQuantity($product->getStockQuantity() - $cartItem->getQuantity());
+            $em->remove($cartItem);
+        }
+        $em->flush();
         return $this->render('payment/success.html.twig', []);
     }
 

@@ -19,6 +19,9 @@ final class WishListController extends AbstractController
     public function showList(ManagerRegistry $doctrine): Response
     {
         $user = $this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('app_login');
+        }
         $entityManager = $doctrine->getManager();
         $wishlist = $entityManager->getRepository(Wishlist::class)->findOneBy(['user'=>$user->getId()]);
         if(!$wishlist){
@@ -46,6 +49,9 @@ final class WishListController extends AbstractController
     public function addToWishlist(int $id, ManagerRegistry $doctrine,Request $request): Response
     {
         $user = $this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('app_login');
+        }
         $entityManager = $doctrine->getManager();
 
         $product = $doctrine->getRepository(Product::class)->find($id);

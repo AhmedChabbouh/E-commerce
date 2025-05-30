@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Informations de paiement{% endblock %}
+{% block title %}Informations de livraison{% endblock %}
 
 {% block stylesheets %}
     <style>
@@ -20,7 +20,7 @@
         }
 
         h1 {
-            color: #2e7d32;
+            color: #000;
             text-align: center;
             margin-bottom: 1.5rem;
             font-weight: 600;
@@ -72,7 +72,8 @@
         }
 
         .btn-secondary:hover {
-            background-color: #e8f5e9;
+            background-color: #43a047;
+            color: #fff;
         }
 
         .flash-message {
@@ -92,13 +93,9 @@
 {% block body %}
     <div class="container">
         <div class="form-container">
-            <h1>{% if address.id is defined %}Edit{% else %}Remplir{% endif %} infos de paiement</h1>
+            <h1>{% if address.id is defined %}Edit{% else %}Remplir{% endif %} infos de livraison</h1>
 
-            {% for message in app.flashes('success') %}
-                <div class="flash-message alert-success">
-                    {{ message }}
-                </div>
-            {% endfor %}
+
 
             {{ form_start(form, {'attr': {'class': 'address-form'}}) }}
 
@@ -126,15 +123,16 @@
                 {{ form_label(form.phoneNumber) }}
                 {{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control'}}) }}
             </div>
+            <button type="submit" class="btn btn-secondary mt-3" onclick="{{ path('checkout', {'cartId': cartId})  }}">Pay with Stripe!</button>
 
-            <a href="{{ path('checkout', {'cartId': cartId}) }}" class="btn btn-secondary mt-3">
-                Pay with Stripe!
-            </a>
-            {{ form_end(form) }}
 
-            <a href="{{ path('app_cartshow_cart') }}" class="btn btn-secondary mt-3">
-                Back to list
-            </a>
+            
+                {{ form_end(form) }}
+
+                <a href="{{ path('app_cartshow_cart') }}" class="btn btn-secondary  mt-3">
+                    Back to your cart
+                </a>
+
         </div>
     </div>
 {% endblock %}
