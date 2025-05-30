@@ -16,15 +16,14 @@ final class AddressController extends AbstractController
     public function index(Request $request, EntityManagerInterface $entityManager,int $cartId): Response
     {
         $address = new Address();
-
+        $address->setUser($this->getUser());
         $form = $this->createForm(AddressTypeForm::class, $address);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($address);
             $entityManager->flush();
-            $this->addFlash('success', 'Address successfully added!');
-            return $this->redirectToRoute('app_address');
+            return $this->redirectToRoute('checkout', ['cartId' => $cartId]);
         }
 
         // Render the form
