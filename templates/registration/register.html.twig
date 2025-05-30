@@ -17,6 +17,9 @@
             label: 'Password'
         }) }}
         {{ form_row(registrationForm.agreeTerms) }}
+    <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}">
+        <span>Login with Google</span>
+    </a>
 
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
