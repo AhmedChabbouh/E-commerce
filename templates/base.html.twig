@@ -72,7 +72,8 @@
             </script>
         {% endif %}
     </head>
-    <body >
+    <body class="d-flex flex-column min-vh-100">
+    <main class="flex-fill">
     {% block navbar %}
      {% include 'navbar.html.twig' %}
     {% endblock %}
@@ -80,6 +81,7 @@
 
         {% endblock %}
     <br><br>
+    </main>
      {% include 'footer.html.twig' %}
     </body>
 </html>
