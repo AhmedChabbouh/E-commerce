@@ -6,6 +6,19 @@
     .card {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+    .btn-success {
+        background-color: #198754;
+        border-color: #198754;
+    }
+
+    .btn-success:hover {
+        background-color: #146c43;
+        border-color: #146c43;
+    }
+
+    .card-title, .card-text {
+        color: #000;
+    }
 
     .card:hover {
         transform: scale(1.05);
@@ -27,10 +40,12 @@
                 <div class="row" id="productContainer" style="display: flex; flex-wrap: wrap; gap: 20px;">
 
                     {% for product in products %}
-                        <div class="product-item col-md-4" style="position: relative; flex: 0 0 calc(25% - 20px);">
+                        <div class="product-item col-md-6" style="flex: 0 0 calc(25% - 20px); margin-top: 20px;">
 
-                            <a href="{{ path('app_product_details', {productId: product.getId()}) }}" methods="POST" style="text-decoration: none; color: black;">
-                                <form method="POST" action="{{ path('app_wish_listapp_wishlist_add', {id: product.getId()}) }}"  style="position: absolute; top: 10px; right: 20px; z-index: 10;">
+                            <div class="card h-100" id="{{ product.getId() }}" style="width: 18rem; height:auto; margin-bottom:25px; position: relative;">
+
+                                <form method="POST" action="{{ path('app_wish_listapp_wishlist_add', {id: product.getId()}) }}"
+                                      style="position: absolute; top: 10px; right: 10px; z-index: 10;">
                                     {% set isInWishlist = product.getId() in wishlistProductIds %}
                                     <button type="submit" class="btn btn-light border rounded-circle p-0" style="width:36px; height:36px;">
                                         {% if isInWishlist %}
@@ -40,22 +55,21 @@
                                         {% endif %}
                                     </button>
                                 </form>
-                                    <div class="card h-100" id="{{ product.getId() }}" style="width: 18rem;height:auto;margin-bottom:25px">
-                                        <img class="card-img-top " style="height:350px;object-fit: cover;" src=  {{ product.getImage()}} >
-                                        <div class="card-body">
-                                            <h5 class="card-title product-description"> {{ product.getName()}} </h5>
 
-                                            <p class="card-text product-description"> {{ product.getDescription()}} </p>
-                                            <label> {{ product.getPrice()}} $</label>
-
-
-
-
-                                             </div>
-                                        </div>
-                                   </a>
+                                <a href="{{ path('app_product_details', {productId: product.getId()}) }}"
+                                   style="text-decoration: none; color: black;">
+                                    <img class="card-img-top" style="height:350px; object-fit: cover;" src="{{ product.getImage() }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title product-description">{{ product.getName() }}</h5>
+                                        <p class="card-text product-description">{{ product.getDescription() }}</p>
+                                        <label>{{ product.getPrice() }} $</label>
+                                    </div>
+                                </a>
+                            </div>
+                            
                         </div>
                     {% endfor %}
+
 
                 </div>
             </div>
