@@ -26,10 +26,6 @@ final class ProductDetailsController extends AbstractController
   else{
       $type="product";
     }
-
-
-
-
         return $this->render('product_details/index.html.twig', [
             'type' => $type,'product' => $product,
         ]);

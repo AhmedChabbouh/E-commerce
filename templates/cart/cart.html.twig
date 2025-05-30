@@ -40,7 +40,7 @@
             {% endfor %}
                 <td colspan="2" style="text-align: end;"><h5 style="margin-top:5px;">Total Price :</h5></td>
             <td ><label style="margin-top:6px;" id="total-price"></label></td>
-            <td><a href={{ path('checkout', {'cartId': cart_id}) }} id="confirm" class="btn btn-outline-secondary">Confirm Purchase</a></td>
+            <td><a href={{ path('address', {'cartId': cart_id}) }} id="confirm" class="btn btn-outline-secondary">Confirm Purchase</a></td>
             </tbody>
         </table>
 

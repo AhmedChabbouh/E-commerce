@@ -31,14 +31,12 @@ final class CategoryController extends AbstractController
         $category7=new category();
         $category7->setName("3alloush el 3id");
 
+        $entityManager->persist($category);
 
-
-       // $entityManager->persist($category);
-
-      // $entityManager->persist($category1);
-     //  $entityManager->persist($category2);
-      // $entityManager->persist($category3);
-      // $entityManager->persist($category4);
+      $entityManager->persist($category1);
+      $entityManager->persist($category2);
+      $entityManager->persist($category3);
+      $entityManager->persist($category4);
 
       $entityManager->persist($category5);
       $entityManager->persist($category6);

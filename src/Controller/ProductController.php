@@ -126,9 +126,9 @@ public function add_product(ManagerRegistry $doctrine):Response{
 
 
 
-        //$doctrine->getManager()->persist($animal);
-       // $doctrine->getManager()->persist($animal1);
-        //$doctrine->getManager()->persist($animal2);
+        $doctrine->getManager()->persist($animal);
+        $doctrine->getManager()->persist($animal1);
+        $doctrine->getManager()->persist($animal2);
 
 
 
@@ -239,12 +239,12 @@ Ils commencent à être propre. Ils partiront avec un Pedigree Internationale, v
 
 
 
-      //  $doctrine->getManager()->persist($animal3);
-       // $doctrine->getManager()->persist($animal4);
-        // $doctrine->getManager()->persist($animal5);
-      // $doctrine->getManager()->persist($animal8);
-      //  $doctrine->getManager()->persist($animal6);
-       // $doctrine->getManager()->persist($animal7);
+       $doctrine->getManager()->persist($animal3);
+       $doctrine->getManager()->persist($animal4);
+       $doctrine->getManager()->persist($animal5);
+       $doctrine->getManager()->persist($animal8);
+       $doctrine->getManager()->persist($animal6);
+       $doctrine->getManager()->persist($animal7);
 
 
 
@@ -512,20 +512,20 @@ Ils commencent à être propre. Ils partiront avec un Pedigree Internationale, v
 
 
 
-        //  $entityManager->persist($animal9);
-       // $entityManager->persist($animal10);
-       // $entityManager->persist($animal11);
-      //  $entityManager->persist($animal12);
-      //  $entityManager->persist($animal13);
-       // $entityManager->persist($animal14);
-      //  $entityManager->persist($animal15);
-       // $entityManager->persist($animal16);
-      //  $entityManager->persist($animal17);
-       // $entityManager->persist($animal18);
-  $entityManager->persist($produit4);
-  $entityManager->persist($produit2);
-  $entityManager->persist($produit3);
-  $entityManager->persist($produit1);
+        $entityManager->persist($animal9);
+        $entityManager->persist($animal10);
+        $entityManager->persist($animal11);
+        $entityManager->persist($animal12);
+        $entityManager->persist($animal13);
+        $entityManager->persist($animal14);
+        $entityManager->persist($animal15);
+        $entityManager->persist($animal16);
+        $entityManager->persist($animal17);
+        $entityManager->persist($animal18);
+        $entityManager->persist($produit4);
+        $entityManager->persist($produit2);
+        $entityManager->persist($produit3);
+        $entityManager->persist($produit1);
 
         $entityManager->persist($animal20);
         $entityManager->persist($animal21);

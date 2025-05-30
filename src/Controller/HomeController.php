@@ -26,7 +26,7 @@ final class HomeController extends AbstractController
         // Get all categories
 
         $products = $productRepository->findAll();
-        for ($i=0 ;$i<11; $i++) {
+        for ($i=0 ;$i<6; $i++) {
             $selectedProducts[] = $products[$i];
     }
         $wishList = $entityManager->getRepository(Wishlist::class)->findOneBy(['user' => $this->getUser()]);
