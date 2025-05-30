@@ -26,15 +26,11 @@
                     'attr': {'style': 'width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;'}
                 }) }}
             </div>
-
-            <div style="margin-bottom: 1.5rem; display: flex; align-items: center;">
-                {{ form_widget(registrationForm.agreeTerms, {
-                    'attr': {'style': 'margin-right: 0.5rem;'}
-                }) }}
-                {{ form_label(registrationForm.agreeTerms) }}
-            </div>
-
-            <button type="submit" style="background: #2e7d32; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; width: 100%; font-size: 1rem;">
+            <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}">
+                <span>Register with Google</span>
+            </a>
+            <button type="submit"
+                    style="background: #2e7d32; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; width: 100%; font-size: 1rem;">
                 Register
             </button>
             {{ form_end(registrationForm) }}
