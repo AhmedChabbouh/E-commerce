@@ -201,30 +201,40 @@
 
 
         <div data-aos="fade-up">
-        <div class="row" id="products">
+            <div class="row" id="product">
 
-            {% for product in products %}
+                {% for product in products %}
+                    <div class="product-item col-md-4" style="position: relative; flex: 0 0 calc(25% - 20px);">
 
-                <div class="col-3 "style="display:flex; align-items: stretch;">
+                        <a href="{{ path('app_product_details', {productId: product.getId()}) }}" methods="POST" style="text-decoration: none; color: black;">
+                            <form method="POST" action="{{ path('app_wish_listapp_wishlist_add', {id: product.getId()}) }}"  style="position: absolute; top: 10px; right: 20px; z-index: 10;">
+                                {% set isInWishlist = product.getId() in wishlistProductIds %}
+                                <button type="submit" class="btn btn-light border rounded-circle p-0" style="width:36px; height:36px;">
+                                    {% if isInWishlist %}
+                                        <i class="bi bi-heart-fill text-success"></i>
+                                    {% else %}
+                                        <i class="bi bi-heart text-success"></i>
+                                    {% endif %}
+                                </button>
+                            </form>
+                            <div class="card h-100" id="{{ product.getId() }}" style="width: 18rem;height:auto;margin-bottom:25px">
+                                <img class="card-img-top " style="height:350px;object-fit: cover;" src=  {{ product.getImage()}} >
+                                <div class="card-body">
+                                    <h5 class="card-title product-description"> {{ product.getName()}} </h5>
 
-                    <div class="card" id="{{ product.getId() }}" style="width: 18rem;height:auto;margin-bottom:25px;background-color:#f6f3f1;">
+                                    <p class="card-text product-description"> {{ product.getDescription()}} </p>
+                                    <label> {{ product.getPrice()}} $</label>
 
-                        <a href="{{ path('app_product_details', {'productId' : product.id }) }}">     <img class="card-img-top " style="height:350px;" src= {% block image %} {{ product.getImage()}} {% endblock %}>   </a>
-                    
 
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product.getName()}} </h5>
 
-                            <p class="card-text"> {{ product.getDescription()}} </p>
-                            <label> {{ product.getPrice()}} $</label><br><br>
 
-                        </div>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </div>
+                {% endfor %}
 
-            {% endfor %}
-
-        </div>
+            </div>
         </div>
     </div>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

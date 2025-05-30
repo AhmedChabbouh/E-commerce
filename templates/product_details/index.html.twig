@@ -91,8 +91,13 @@
             </li>
 
       </ul>
+
+    <form method="POST" action="{{ path('app_cartadd_to_cart', {'id': product.id}) }}">
         <button class="btn btn-success" id="bouton">Add to cart 🛒</button>
-    </div>
+    </form>
+     </div>
+
+</div>
 
 </div></div>
 {% endblock %}

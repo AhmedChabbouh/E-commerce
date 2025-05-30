@@ -25,10 +25,7 @@
                 <li class="nav-item"><a class="nav-link " href="{{ path('app_home') }}">Home</a></li>
 
                 <li class="nav-item"><a class="nav-link" href="{{ path('app_about_us') }}">About us</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">S'incrire</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Se connecter</a></li>
-
-                <li class="nav-item"><a class="nav-link" href="#">About us</a></li>
+                
                 {% if app.user %}
                     <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Logout</a></li>
                 {% else %}
@@ -54,8 +51,7 @@
 
 
                 <div class="navbar-icons d-flex align-items-center">
-
-                   <i style="margin-left: 5px;margin-right:10px" class="bi bi-person" title="User"></i>
+                    
                     <a href="{{ path('app_wish_listapp_wish_list_show') }}" class="me-3" title="Wishlist">
                         <i class="bi bi-heart"></i>
                     </a>
