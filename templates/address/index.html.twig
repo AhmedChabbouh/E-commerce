@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Informations de paiement{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            background: linear-gradient(135deg, #e8f5e9 0%, #fff8e1 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #2e7d32;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            border: 1px solid #c8e6c9;
+            border-radius: 5px;
+            padding: 0.75rem;
+        }
+
+        .form-control:focus {
+            border-color: #81c784;
+            box-shadow: 0 0 0 0.2rem rgba(129, 199, 132, 0.25);
+        }
+
+        label {
+            color: #33691e;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .btn-primary {
+            background-color: #43a047;
+            border-color: #43a047;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #2e7d32;
+            border-color: #2e7d32;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #43a047;
+            border: 1px solid #43a047;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e8f5e9;
+        }
+
+        .flash-message {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+        }
+
+        .alert-success {
+            background-color: #c8e6c9;
+            color: #1b5e20;
+            border: 1px solid #a5d6a7;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="form-container">
+            <h1>{% if address.id is defined %}Edit{% else %}Remplir{% endif %} infos de paiement</h1>
+
+            {% for message in app.flashes('success') %}
+                <div class="flash-message alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {{ form_start(form, {'attr': {'class': 'address-form'}}) }}
+
+            <div class="form-group">
+                {{ form_label(form.addressSpecifique) }}
+                {{ form_widget(form.addressSpecifique, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.codePostal) }}
+                {{ form_widget(form.codePostal, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.city) }}
+                {{ form_widget(form.city, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.country) }}
+                {{ form_widget(form.country, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.phoneNumber) }}
+                {{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <a href="{{ path('checkout', {'cartId': cartId}) }}" class="btn btn-secondary mt-3">
+                Pay with Stripe!
+            </a>
+            {{ form_end(form) }}
+
+            <a href="{{ path('app_cartshow_cart') }}" class="btn btn-secondary mt-3">
+                Back to list
+            </a>
+        </div>
+    </div>
+{% endblock %}
