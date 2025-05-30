@@ -1,13 +1,104 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Payment Fail{% endblock %}
+{% block title %}Payment Failed{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            background-color: #fff9f9; /* Soft white with red tint */
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            padding: 20px;
+        }
+
+        .failure-message {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-top: 4px solid #e74c3c;
+        }
+
+        h1 {
+            color: #e74c3c; /* Alert red */
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 25px;
+            color: #555;
+        }
+
+        .warning-icon {
+            color: #e74c3c;
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .email-link {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        .home-btn {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .home-btn:hover {
+            background: #c0392b;
+        }
+
+        .try-again {
+            display: inline-block;
+            background: white;
+            color: #e74c3c;
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 15px;
+            font-size: 16px;
+            border: 1px solid #e74c3c;
+            margin-left: 10px;
+        }
+
+        .try-again:hover {
+            background: #fdf2f2;
+        }
+    </style>
+{% endblock %}
+
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
 
 {% block body %}
-    {{ parent() }}
-    <h1>Thanks for your order!</h1>
-    <p>
-        We appreciate your business!
-        sorry transaction failed
-        <a href="mailto:orders@example.com">orders@example.com</a>.
-    </p>
+    <div class="failure-message">
+        <span class="warning-icon">⚠</span>
+        <h1>Payment Failed</h1>
+        <p>
+            We couldn't process your payment.<br>
+            Please try again or use a different payment method.
+        </p>
+        <p>
+            For assistance, please contact us at<br>
+            <a href="mailto:symfonyecommerce34@gmail.com" class="email-link">symfonyecommerce34@gmail.com</a>
+        </p>
+        <div>
+            <a href="{{ path('app_home') }}" class="home-btn">Return to Homepage</a>
+        </div>
+    </div>
 {% endblock %}

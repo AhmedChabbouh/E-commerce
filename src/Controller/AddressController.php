@@ -24,7 +24,7 @@ final class AddressController extends AbstractController
             $entityManager->persist($address);
             $entityManager->flush();
             $this->addFlash('success', 'Address successfully added!');
-            return $this->redirectToRoute('app_address');
+            return $this->redirectToRoute('address');
         }
 
         // Render the form
