@@ -20,7 +20,7 @@
 
                 {% for product in products %}
                     <tr id="{{ product.getId() }}" class="product-id">
-                <td><img  class="image" style="width:18em; height:16em;" src= {{ product.getImage()}} ></td>
+                <td><img  class="image" style="width:18em; height:16em;" src="{{  asset('uploads/images/' ~ product.image) }}" alt='' onerror="this.src='{{ product.image }}'"></td>
                 <td style="padding-top: 100px">
                     {% if not isAnimal[product.getId()] and product.getStockQuantity()<10  %}
                     <p style="color: red; font-weight: bold;">
@@ -28,7 +28,7 @@
                     </p>
                     {% endif %}
                     <h5 class="card-title" > {{ product.getName()}} </h5>
-                    <p class="card-text"> {{ product.getDescription()}} </p></td>
+                    <p class="card-text"> {{ product.getDescription()|raw }} </p></td>
                 <td style="padding-top: 100px" class="price"> <label> {{ product.getPrice()}} $</label></td>
 
                 <td style="padding-top: 100px;"><input style="width:100px;"  class="quantity form-control text-center" type="number" min="0" max="{{ isAnimal[product.getId()] ? 1: product.getStockQuantity()}}" value="{{ quantity[product.getId()] }}"></td>

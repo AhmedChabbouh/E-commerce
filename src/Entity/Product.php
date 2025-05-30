@@ -16,7 +16,6 @@ use Doctrine\ORM\Mapping as ORM;
 ])]
 
 
-
 class Product
 {
     #[ORM\Id]

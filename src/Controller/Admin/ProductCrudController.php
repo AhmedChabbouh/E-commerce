@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\DomCrawler\Field\FileFormField;
@@ -31,6 +32,7 @@ class ProductCrudController extends AbstractCrudController
             TextField::new('name'),
             TextEditorField::new('description'),
             TextField::new('price'),
+            NumberField::new('sale'),
             $imageField,
                 //TODO: change the filename format
             IntegerField::new('stockQuantity'),
