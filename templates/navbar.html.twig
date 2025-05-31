@@ -51,6 +51,11 @@
 
 
                 <div class="navbar-icons d-flex align-items-center">
+                    {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                        <a href="{{ path('admin') }}" class="me-3" title="Profile">
+                            <i class="bi bi-person" title="User"></i>
+                        </a>
+                    {% endif %}
                     
                     <a href="{{ path('app_wish_listapp_wish_list_show') }}" class="me-3" title="Wishlist">
                         <i class="bi bi-heart"></i>
