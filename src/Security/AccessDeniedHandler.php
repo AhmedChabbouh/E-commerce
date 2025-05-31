@@ -11,8 +11,7 @@ class AccessDeniedHandler extends AbstractController implements AccessDeniedHand
 {
     public function handle(Request $request, AccessDeniedException $accessDeniedException): ?Response
     {
-        $url=$request->getBaseUrl();
-        if(str_contains($url,'admin')){
+        if($this->getUser()){
             $content = 'You need to be an admin to access this page.';
         }
         else{

@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -50,7 +51,10 @@ class ProductCrudController extends AbstractCrudController
         return [
 
             TextField::new('name'),
-            TextEditorField::new('description'),
+            AssociationField::new('category'),
+            TextEditorField::new('description')->formatValue(function ($value, $entity) {
+                return ($value);
+            })->hideOnIndex(),
             MoneyField::new('price')->setCurrency('USD'),
             NumberField::new('sale'),
             $imageField,

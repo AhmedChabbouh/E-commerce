@@ -25,7 +25,9 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            AvatarField::new('avatar'),
+            AvatarField::new('avatar')->formatValue(function ($value, $entity) {
+                return $value ?: 'https://www.gravatar.com/avatar/?d=mp';
+            }),
             TextField::new('fullName')->onlyOnIndex(),
             TextField::new('firstName')->hideOnIndex(),
             TextField::new('lastName')->hideOnIndex(),

@@ -15,8 +15,9 @@ final class AddressController extends AbstractController
     #[Route('/address/{cartId}', name: 'address')]
     public function index(Request $request, EntityManagerInterface $entityManager,int $cartId): Response
     {
+
         $address = new Address();
-        $address->setUser($this->getUser());
+        $address->setOwner($this->getUser());
         $form = $this->createForm(AddressTypeForm::class, $address);
         $form->handleRequest($request);
 
