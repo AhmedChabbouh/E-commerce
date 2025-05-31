@@ -54,7 +54,59 @@
         {% endblock %}
 
         {% block javascripts %}
+            <template id="custom-alert-template">
+                <div class="custom-alert">
+                    <div class="message">This is a custom alert</div>
+                    <button class="close-btn" aria-label="Close alert">&times;</button>
+                </div>
+            </template>
 
+            <style>
+                .custom-alert {
+                    background-color: #222;
+                    color: #fff;
+                    padding: 1rem 1.5rem;
+                    border-radius: 10px;
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    max-width: 300px;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+                    z-index: 1000;
+                    animation: fadeIn 0.3s ease;
+                }
+                .custom-alert .close-btn {
+                    background: none;
+                    border: none;
+                    color: #fff;
+                    font-size: 1.2rem;
+                    float: right;
+                    cursor: pointer;
+                }
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(-10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            </style>
+
+            <script>
+                function customAlert(message) {
+                    const template = document.getElementById('custom-alert-template');
+                    const clone = template.content.cloneNode(true);
+                    const alertBox = clone.querySelector('.custom-alert');
+                    alertBox.querySelector('.message').textContent = message;
+
+                    // Close button
+                    alertBox.querySelector('.close-btn').addEventListener('click', () => alertBox.remove());
+
+                    document.body.appendChild(alertBox);
+
+                    // Auto-remove after 10 seconds
+                    setTimeout(() => alertBox.remove(), 10000);
+                }
+
+                // Example usage:
+            </script>
         {% endblock %}
         {% if app.user %}
             <script>
@@ -67,11 +119,15 @@
                 const eventSource = new EventSource("{{mercure(urls)|escape('js') }}");
                 eventSource.onmessage = event =>{
                     // TODO: handle event
-                    alert(event.data);
+                    const data = JSON.parse(event.data);
+                    const message = data.message;
+                    customAlert(message);
                 }
                 {% endif %}
             </script>
+
         {% endif %}
+
     </head>
     <body class="d-flex flex-column min-vh-100">
     <main class="flex-fill">
