@@ -1,7 +1,50 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Register{% endblock %}
+{% block stylesheets %}
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
+        .btn-primary {
+            background-color: #4a7a4a;
+            color: white;
+            border: 1px solid #4a7a4a;
+            padding: 12px;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 1rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #3b653b;
+            color: white;
+        }
+
+        .login-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #4a7a4a;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
 {% block body %}
     <div style="background: linear-gradient(to bottom, #f6f3f1, #ffffff); min-height: 100vh; padding: 2rem;">
         <div style="max-width: 500px; margin: 0 auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
@@ -40,19 +83,35 @@
                 {{ form_row(registrationForm.plainPassword.second, {
                     'attr': {'style': 'width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;'}
                 }) }}
-            <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}">
 
-                <span>Register with Google</span>
-            </a>
-
+                <br>
             <label>
                 <input type="checkbox" name="_remember_me" checked>
                 Keep me logged in
             </label>
-            <button type="submit"
-                    style="background: #2e7d32; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; width: 100%; font-size: 1rem;">
-                Register
-            </button>
+                <button type="submit" style="background: #2e7d32; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; width: 100%; font-size: 1rem;">
+                    Register
+                </button>
+
+
+                <div style="text-align: center; margin: 1rem 0; color: #000000;">
+                    — or —
+                </div>
+
+                <div style="text-align: center;">
+                    <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google'}) }}"
+                       style="display: inline-block; background: #ffffff; color: #000000; border: 1px solid #ccc;
+                          padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold; text-decoration: none;
+                          width: 100%; box-sizing: border-box;">
+                        <img src="{{ asset('images/googleLogo.png') }}" alt="Google icon"
+                             style="height: 20px; vertical-align: middle; margin-right: 8px;">
+                        Sign up with Google
+                    </a>
+                </div>
+
+                <a href="{{ path('app_login') }}" class="login-link">
+                    Do you have an account? Sign in here!
+                </a>
             {{ form_end(registrationForm) }}
         </div>
     </div>
