@@ -17,6 +17,9 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
             access_denied_handler: App\Security\AccessDeniedHandler
             lazy: true
             provider: app_user_provider
@@ -28,7 +31,7 @@ security:
                 default_target_path: app_home
             logout:
                 path: app_logout
-                target: /home
+                target: app_home
             oauth:
                 resource_owners:
                     facebook: "/login/check-facebook"
@@ -59,7 +62,7 @@ security:
     access_control:
         - { path: ^/login ,roles: PUBLIC_ACCESS}
         - { path: ^/register, roles: PUBLIC_ACCESS}
-        - { path: ^/admin, roles: ROLE_ADMIN }
+#        - { path: ^/admin, roles: ROLE_ADMIN }
 #        - { path: ^/, roles: ROLE_USER}
         # - { path: ^/profile, roles: ROLE_USER }
 

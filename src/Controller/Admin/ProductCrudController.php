@@ -6,6 +6,9 @@ use App\Entity\Notification;
 use App\Entity\Product;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -16,15 +19,20 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\DomCrawler\Field\FileFormField;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 
 class ProductCrudController extends AbstractCrudController
 {
     private HubInterface $hub;
-    public function __construct(HubInterface $hub)
+    private MailerInterface $mailer;
+    public function __construct(HubInterface $hub,MailerInterface $mailer)
     {
         $this->hub = $hub;
+        $this->mailer = $mailer;
     }
 
     public static function getEntityFqcn(): string
@@ -66,7 +74,7 @@ class ProductCrudController extends AbstractCrudController
         $oldSale= $originalData['sale'];
         if ($newSale > $oldSale){
             $title="New Sale!";
-            $message= $entityInstance->getName() . 'is now ' . $newSale . '% off';
+            $message= $entityInstance->getName() . ' is now ' . $newSale . '% off';
             $users= $entityManager->getRepository(User::class)->findbyWishlistedProduct($entityInstance->getId());
             foreach ($users as $user){
                 $notification = new Notification();
@@ -74,6 +82,13 @@ class ProductCrudController extends AbstractCrudController
                 $notification->setMessage($message);
                 $notification->setOwner($user);
                 $entityManager->persist($notification);
+                $this->mailer->send((new Email())
+                    ->from(new Address('symfonyecommerce34@gmail.com', 'E-Commerce No-Reply'))
+                    ->to((string) $user->getEmail())
+                    ->subject($title)
+                    ->html("<h1>".$title."</h1><p>".$message."</p>")
+
+                );
             }
             $entityManager->flush();
             $update = new Update(
@@ -85,8 +100,13 @@ class ProductCrudController extends AbstractCrudController
             );
             $this->hub->publish($update);
 
+
         }
 
 
+    }
+    public function configureActions(Actions $actions): Actions
+    {
+        return parent::configureActions($actions)->add(Crud::PAGE_INDEX,Action::DETAIL);
     }
 }

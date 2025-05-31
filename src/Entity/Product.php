@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\PrePersist;
+
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\InheritanceType("JOINED")]
 #[ORM\DiscriminatorColumn(name: "discr", type: "string")]
@@ -15,8 +17,6 @@ use Doctrine\ORM\Mapping as ORM;
     "product" => Product::class,
     "animal" => AnimalProduct::class,
 ])]
-
-
 class Product
 {
     #[ORM\Id]
@@ -42,7 +42,7 @@ class Product
     #[ORM\Column]
     private ?int $stockQuantity = null;
 
-    #[ORM\ManyToOne(targetEntity: Category::class,inversedBy: 'products')]
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Category $category = null;
 
@@ -56,12 +56,11 @@ class Product
     private ?float $sale = null;
 
 
+    public function __construct()
+    {
+        $this->wishlists = new ArrayCollection();
+    }
 
-
-   public function __construct()
-   {
-       $this->wishlists = new ArrayCollection();
-   }
     public function getId(): ?int
     {
         return $this->id;
@@ -138,51 +137,60 @@ class Product
 
         return $this;
     }
-public function getInfo(): ?string{
-       return $this->info;
-}
-public function setInfo(string $info): static{
-    $this->info = $info;
-   return $this;}
 
-/**
- * @return Collection<int, Wishlist>
- */
-public function getWishlists(): Collection
-{
-    return $this->wishlists;
-}
-
-public function addWishlist(Wishlist $wishlist): static
-{
-    if (!$this->wishlists->contains($wishlist)) {
-        $this->wishlists->add($wishlist);
-        $wishlist->addProduct($this);
+    public function getInfo(): ?string
+    {
+        return $this->info;
     }
 
-    return $this;
-}
-
-public function removeWishlist(Wishlist $wishlist): static
-{
-    if ($this->wishlists->removeElement($wishlist)) {
-        $wishlist->removeProduct($this);
+    public function setInfo(string $info): static
+    {
+        $this->info = $info;
+        return $this;
     }
 
-    return $this;
-}
+    /**
+     * @return Collection<int, Wishlist>
+     */
+    public function getWishlists(): Collection
+    {
+        return $this->wishlists;
+    }
 
-public function getSale(): ?float
-{
-    return $this->sale;
-}
+    public function addWishlist(Wishlist $wishlist): static
+    {
+        if (!$this->wishlists->contains($wishlist)) {
+            $this->wishlists->add($wishlist);
+            $wishlist->addProduct($this);
+        }
 
-public function setSale(?float $sale): static
-{
-    $this->sale = $sale;
+        return $this;
+    }
 
-    return $this;
-}
+    public function removeWishlist(Wishlist $wishlist): static
+    {
+        if ($this->wishlists->removeElement($wishlist)) {
+            $wishlist->removeProduct($this);
+        }
 
+        return $this;
+    }
+
+    public function getSale(): ?float
+    {
+        return $this->sale;
+    }
+
+    public function setSale(?float $sale): static
+    {
+        $this->sale = $sale;
+
+        return $this;
+    }
+    #[prePersist]
+    public function setSaleValue(): void
+    {
+            $this->setSale(0);
+    }
 
 }
