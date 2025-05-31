@@ -27,7 +27,7 @@ class Address
 
     #[ORM\ManyToOne(inversedBy: 'addresses')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?User $owner = null;
 
     #[ORM\Column(length: 255)]
     private ?string $addressSpecifique = null;
@@ -37,14 +37,10 @@ class Address
         return $this->id;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
 
-    public function setUser(User $user): static
+    public function setOwner(User $owner): static
     {
-        $this->user = $user;
+        $this->owner = $owner;
 
         return $this;
     }
