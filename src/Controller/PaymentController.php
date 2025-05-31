@@ -57,7 +57,7 @@ final class PaymentController extends AbstractController
                              $product->getImage()
                         ],
                     ],
-                    'unit_amount' => (int) round($product->getPrice() * 100),
+                    'unit_amount' => (int) round($product->getPrice()*(1-$product->getSale()/100)*100),
                 ],
                 'quantity' => $cartItem->getQuantity(),
             ];

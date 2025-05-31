@@ -72,6 +72,15 @@
                 border-bottom: none;
             }
         }
+        .discounted-price {
+            color: #dc3545;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        .old-price {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
     </style>
 {% endblock %}
 
@@ -92,19 +101,28 @@
                 {% for product in products %}
                     <tr id="{{ product.getId() }}" class="product-id">
                         <td>
-                            <img class="product-image" src="{{ product.getImage() }}" alt="{{ product.getName() }}">
+                            <img  class="product-image"  src="{{  asset('uploads/images/' ~ product.image) }}" alt='' onerror="this.src='{{ product.image }}'">
                         </td>
                         <td>
                             {% if not isAnimal[product.getId()] and product.getStockQuantity() < 10 %}
                                 <p class="low-stock">Only {{ product.getStockQuantity() }} left in stock!</p>
                             {% endif %}
                             {% if isAnimal[product.getId()] %}
-                                <p class="low-stock">This is an animal, you can only buy one!</p>
+                                <p class="low-stock"> This is an animal, you can only buy one!</p>
                             {% endif %}
                             <h5>{{ product.getName() }}</h5>
-                            <p>{{ product.getDescription() }}</p>
+                            <p>{{ product.getDescription()|raw }}</p>
                         </td>
-                        <td>{{ product.getPrice() }} $</td>
+                        <td>
+
+                            {% if product.getSale() > 0 %}
+                                {% set discountedPrice = (product.getPrice() * (1 - (product.getSale() / 100)))|number_format(2, '.', ',') %}
+                                <span class="old-price">{{ product.getPrice()|number_format(2, '.', ',') }} $</span>
+                                <span class="discounted-price">{{ discountedPrice }} $</span>
+                            {% else %}
+                                <span class="fw-bold">{{ product.getPrice()|number_format(2, '.', ',') }} $</span>
+                            {% endif %}
+                        </td>
                         <td>
                             <input class="quantity form-control text-center"
                                    type="number"
@@ -130,13 +148,11 @@
         </div>
     </div>
 {% endblock %}
-
 {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const quantities = document.querySelectorAll('.quantity');
-            const prices = Array.from(document.querySelectorAll('.price'));
             const totalPrice = document.getElementById('total-price');
             const images = Array.from(document.querySelectorAll('.product-image'));
             const names = Array.from(document.querySelectorAll('h5'));
@@ -146,8 +162,17 @@
                 let total = 0;
                 quantities.forEach((quantityInput, index) => {
                     const quantity = parseInt(quantityInput.value) || 0;
-                    const priceText = ids[index].querySelector('td:nth-child(3)').textContent.trim().replace('$', '');
-                    const price = parseFloat(priceText);
+                    const priceCell = ids[index].querySelector('td:nth-child(3)');
+
+                    let priceText;
+                    const discountedSpan = priceCell.querySelector('.discounted-price');
+                    if (discountedSpan) {
+                        priceText = discountedSpan.textContent.trim().replace(' $', '');
+                    } else {
+                        priceText = priceCell.textContent.trim().replace(' $', '');
+                    }
+
+                    const price = parseFloat(priceText.replace(',', ''));
                     total += quantity * price;
                 });
                 totalPrice.textContent = total.toFixed(2) + ' $';

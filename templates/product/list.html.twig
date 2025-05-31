@@ -55,14 +55,27 @@
                                         {% endif %}
                                     </button>
                                 </form>
-
+                                {% if product.getSale() > 0 %}
+                                    <div class="badge badge-danger"
+                                         style="position: absolute; top: 10px; left: 10px; z-index: 10; background-color: red; color: white; padding: 5px 10px; border-radius: 5px;">
+                                        SALE -{{ product.getSale() }}%
+                                    </div>
+                                {% endif %}
                                 <a href="{{ path('app_product_details', {productId: product.getId()}) }}"
                                    style="text-decoration: none; color: black;">
                                     <img class="card-img-top" style="height:350px; object-fit: cover;" src="{{  asset('uploads/images/' ~ product.image) }}" alt='' onerror="this.src='{{ product.image }}'" >
                                     <div class="card-body">
                                         <h5 class="card-title product-description">{{ product.getName() }}</h5>
                                         <p class="card-text product-description">{{ product.getDescription()|raw }}</p>
-                                        <label>{{ product.getPrice() }} $</label>
+                                        {% if product.getSale() > 0 %}
+                                            {% set discountedPrice = (product.getPrice() * (1 - (product.getSale() / 100)))|number_format(2, '.', ',') %}
+                                            <p>
+                                                <span class="text-muted text-decoration-line-through">{{ product.getPrice()|number_format(2, '.', ',') }} $</span>
+                                                <span class="fw-bold text-danger ms-2">{{ discountedPrice }} $</span>
+                                            </p>
+                                        {% else %}
+                                            <label class="fw-bold">{{ product.getPrice()|number_format(2, '.', ',') }} $</label>
+                                        {% endif %}
                                     </div>
                                 </a>
                             </div>

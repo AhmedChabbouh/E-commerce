@@ -53,7 +53,7 @@ class Product
     private Collection $wishlists;
 
     #[ORM\Column(nullable: true)]
-    private ?float $sale = null;
+    private ?int $sale = null;
 
 
     public function __construct()
@@ -176,14 +176,14 @@ class Product
         return $this;
     }
 
-    public function getSale(): ?float
-    {
-        return $this->sale;
-    }
+public function getSale(): ?int
+{
+    return $this->sale;
+}
 
-    public function setSale(?float $sale): static
-    {
-        $this->sale = $sale;
+public function setSale(?int $sale): static
+{
+    $this->sale = $sale;
 
         return $this;
     }

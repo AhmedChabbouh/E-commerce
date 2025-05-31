@@ -73,14 +73,17 @@
             </script>
         {% endif %}
     </head>
-    <body >
-    {% block navbar %}
-     {% include 'navbar.html.twig' %}
-    {% endblock %}
+    <body class="d-flex flex-column min-vh-100">
+    <main class="flex-fill">
+        {% block navbar %}
+            {% include 'navbar.html.twig' %}
+        {% endblock %}
         {% block body %}
 
         {% endblock %}
-    <br><br>
+        <br><br>
+    </main>
+
     {% block footer %}
      {% include 'footer.html.twig' %}
     {% endblock %}
