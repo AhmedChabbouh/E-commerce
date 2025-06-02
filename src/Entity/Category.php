@@ -57,6 +57,11 @@ class Category
     {
         return $this->products;
     }
+    public function __toString(): string
+    {
+        // TODO: Implement __toString() method.
+        return $this->name;
+    }
 
     public function addProduct(Product $product): static
     {

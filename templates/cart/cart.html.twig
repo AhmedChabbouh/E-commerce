@@ -101,7 +101,7 @@
                 {% for product in products %}
                     <tr id="{{ product.getId() }}" class="product-id">
                         <td>
-                            <img  class="product-image"  src="{{  asset('uploads/images/' ~ product.image) }}" alt='' onerror="this.src='{{ product.image }}'">
+                            <img  class="product-image"  src="{{ product.image }}" alt='' >
                         </td>
                         <td>
                             {% if not isAnimal[product.getId()] and product.getStockQuantity() < 10 %}

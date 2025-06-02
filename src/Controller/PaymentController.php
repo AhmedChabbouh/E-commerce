@@ -52,7 +52,7 @@ final class PaymentController extends AbstractController
                     'currency' => 'usd',
                     'product_data' => [
                         'name' => $product->getName(),
-                        'description' => $product->getDescription(),
+                        'description' => strip_tags( $product->getDescription() ),
                         'images' => [
                              $product->getImage()
                         ],

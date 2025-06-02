@@ -63,7 +63,7 @@
                                 {% endif %}
                                 <a href="{{ path('app_product_details', {productId: product.getId()}) }}"
                                    style="text-decoration: none; color: black;">
-                                    <img class="card-img-top" style="height:350px; object-fit: cover;" src="{{  asset('uploads/images/' ~ product.image) }}" alt='' onerror="this.src='{{ product.image }}'" >
+                                    <img class="card-img-top" style="height:350px; object-fit: cover;" src="{{product.image}}" alt='' >
                                     <div class="card-body">
                                         <h5 class="card-title product-description">{{ product.getName() }}</h5>
                                         <p class="card-text product-description">{{ product.getDescription()|raw }}</p>

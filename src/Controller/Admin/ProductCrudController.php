@@ -43,11 +43,6 @@ class ProductCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $imageField = ImageField::new('image')->setBasePath('/uploads/images')->setUploadDir('public/uploads/images')
-            ->setUploadedFileNamePattern(fn(UploadedFile $file) => 'product' . uniqid() . '.' . $file->guessExtension());
-        if ($pageName != 'new'){
-            $imageField->setRequired(false);
-        }
         return [
 
             TextField::new('name'),
@@ -57,8 +52,9 @@ class ProductCrudController extends AbstractCrudController
             })->hideOnIndex(),
             MoneyField::new('price')->setCurrency('USD'),
             NumberField::new('sale'),
-            $imageField,
-                //TODO: change the filename format
+            TextField::new('image')->setFormTypeOption('help', 'set an image using a public url')
+            ->onlyOnForms(),
+            ImageField::new('image')->setBasePath('')->hideOnForm(),
             IntegerField::new('stockQuantity'),
 
         ];
